@@ -1,0 +1,51 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+  0 _HeroBlinkTile                                                 00040A GR
+  0 _HeroCGB                                                       000000 GR
+  0 _HeroDownAttack1Tile                                           00028A GR
+  0 _HeroDownAttack2Tile                                           0002CA GR
+  0 _HeroDownTile                                                  00000A GR
+  0 _HeroDownWalkTile                                              00004A GR
+  0 _HeroLeftAttack1Tile                                           00018A GR
+  0 _HeroLeftAttack2Tile                                           0001CA GR
+  0 _HeroLeftTile                                                  00008A GR
+  0 _HeroLeftWalkTile                                              0000CA GR
+  0 _HeroRightAttack1Tile                                          00020A GR
+  0 _HeroRightAttack2Tile                                          00024A GR
+  0 _HeroRightTile                                                 00010A GR
+  0 _HeroRightWalkTile                                             00014A GR
+  0 _HeroUpAttack1Tile                                             00038A GR
+  0 _HeroUpAttack2Tile                                             0003CA GR
+  0 _HeroUpTile                                                    00030A GR
+  0 _HeroUpWalkTile                                                00034A GR
+  0 _SwordDownTile                                                 00058A GR
+  0 _SwordLeftDownTile                                             00060A GR
+  0 _SwordLeftTile                                                 00050A GR
+  0 _SwordLeftUpTile                                               00048A GR
+  0 _SwordRightDownTile                                            0005CA GR
+  0 _SwordRightTile                                                0004CA GR
+  0 _SwordRightUpTile                                              00044A GR
+  0 _SwordUpTile                                                   00054A GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size    64A   flags    0
+   1 _DATA                                      size      0   flags    0
+   2 _INITIALIZED                               size      0   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      0   flags    0
+   8 _CABS                                      size      0   flags    8
+

@@ -1,0 +1,86 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+  0 _BlinkExec                                                     000CB9 GR
+    _EyePosAdjust                                                  ****** GX
+    _HeroBlinkTile                                                 ****** GX
+    _HeroDownAttack1Tile                                           ****** GX
+    _HeroDownAttack2Tile                                           ****** GX
+    _HeroDownTile                                                  ****** GX
+    _HeroDownWalkTile                                              ****** GX
+  0 _HeroExec                                                      0000F9 GR
+  0 _HeroExecInit                                                  000000 GR
+    _HeroLeftAttack1Tile                                           ****** GX
+    _HeroLeftAttack2Tile                                           ****** GX
+    _HeroLeftTile                                                  ****** GX
+    _HeroLeftWalkTile                                              ****** GX
+    _HeroRightAttack1Tile                                          ****** GX
+    _HeroRightAttack2Tile                                          ****** GX
+    _HeroRightTile                                                 ****** GX
+    _HeroRightWalkTile                                             ****** GX
+    _HeroUpAttack1Tile                                             ****** GX
+    _HeroUpAttack2Tile                                             ****** GX
+    _HeroUpTile                                                    ****** GX
+    _HeroUpWalkTile                                                ****** GX
+    _HitCheck                                                      ****** GX
+    _SCX_REG                                                       ****** GX
+    _SCY_REG                                                       ****** GX
+  0 _StartBlink                                                    000C99 GR
+    _SwordDownTile                                                 ****** GX
+    _SwordLeftDownTile                                             ****** GX
+    _SwordLeftTile                                                 ****** GX
+    _SwordLeftUpTile                                               ****** GX
+    _SwordRightDownTile                                            ****** GX
+    _SwordRightTile                                                ****** GX
+    _SwordRightUpTile                                              ****** GX
+    _SwordUpTile                                                   ****** GX
+  1 _actionCnt                                                     000007 GR
+  1 _bkgX                                                          000003 GR
+  1 _bkgY                                                          000004 GR
+  1 _blinkCnt                                                      000008 GR
+  1 _blinkFlag                                                     00000D GR
+  1 _direction                                                     00000B GR
+  0 _getBkgX                                                       0000F1 GR
+  0 _getBkgY                                                       0000F5 GR
+  0 _getSpriteX                                                    0000E9 GR
+  0 _getSpriteY                                                    0000ED GR
+  1 _heroAction                                                    00000A GR
+    _joypad                                                        ****** GX
+  1 _joypadPrevious                                                000000 GR
+    _set_sprite_data                                               ****** GX
+    _set_sprite_palette                                            ****** GX
+    _shadow_OAM                                                    ****** GX
+  1 _spriteX                                                       000001 GR
+  1 _spriteY                                                       000002 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  0 _spritepalette                                                 0000A9 GR
+  1 _swordAction                                                   00000C GR
+  1 _swordCnt                                                      000009 GR
+  1 _velocityX                                                     000005 GR
+  1 _velocityY                                                     000006 GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size    D4A   flags    0
+   1 _DATA                                      size      E   flags    0
+   2 _INITIALIZED                               size      0   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      0   flags    0
+   8 _CABS                                      size      0   flags    8
+

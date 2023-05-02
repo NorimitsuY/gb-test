@@ -1,0 +1,2507 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module HeroExec
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _BlinkExec
+                                     12 	.globl _StartBlink
+                                     13 	.globl _HeroExec
+                                     14 	.globl _getBkgY
+                                     15 	.globl _getBkgX
+                                     16 	.globl _getSpriteY
+                                     17 	.globl _getSpriteX
+                                     18 	.globl _HeroExecInit
+                                     19 	.globl _HitCheck
+                                     20 	.globl _EyePosAdjust
+                                     21 	.globl _set_sprite_palette
+                                     22 	.globl _set_sprite_data
+                                     23 	.globl _joypad
+                                     24 	.globl _blinkFlag
+                                     25 	.globl _swordAction
+                                     26 	.globl _direction
+                                     27 	.globl _heroAction
+                                     28 	.globl _swordCnt
+                                     29 	.globl _blinkCnt
+                                     30 	.globl _actionCnt
+                                     31 	.globl _velocityY
+                                     32 	.globl _velocityX
+                                     33 	.globl _bkgY
+                                     34 	.globl _bkgX
+                                     35 	.globl _spriteY
+                                     36 	.globl _spriteX
+                                     37 	.globl _joypadPrevious
+                                     38 	.globl _spritepalette
+                                     39 ;--------------------------------------------------------
+                                     40 ; special function registers
+                                     41 ;--------------------------------------------------------
+                                     42 ;--------------------------------------------------------
+                                     43 ; ram data
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _DATA
+      000000                         46 _joypadPrevious::
+      000000                         47 	.ds 1
+      000001                         48 _spriteX::
+      000001                         49 	.ds 1
+      000002                         50 _spriteY::
+      000002                         51 	.ds 1
+      000003                         52 _bkgX::
+      000003                         53 	.ds 1
+      000004                         54 _bkgY::
+      000004                         55 	.ds 1
+      000005                         56 _velocityX::
+      000005                         57 	.ds 1
+      000006                         58 _velocityY::
+      000006                         59 	.ds 1
+      000007                         60 _actionCnt::
+      000007                         61 	.ds 1
+      000008                         62 _blinkCnt::
+      000008                         63 	.ds 1
+      000009                         64 _swordCnt::
+      000009                         65 	.ds 1
+      00000A                         66 _heroAction::
+      00000A                         67 	.ds 1
+      00000B                         68 _direction::
+      00000B                         69 	.ds 1
+      00000C                         70 _swordAction::
+      00000C                         71 	.ds 1
+      00000D                         72 _blinkFlag::
+      00000D                         73 	.ds 1
+                                     74 ;--------------------------------------------------------
+                                     75 ; ram data
+                                     76 ;--------------------------------------------------------
+                                     77 	.area _INITIALIZED
+                                     78 ;--------------------------------------------------------
+                                     79 ; absolute external ram data
+                                     80 ;--------------------------------------------------------
+                                     81 	.area _DABS (ABS)
+                                     82 ;--------------------------------------------------------
+                                     83 ; global & static initialisations
+                                     84 ;--------------------------------------------------------
+                                     85 	.area _HOME
+                                     86 	.area _GSINIT
+                                     87 	.area _GSFINAL
+                                     88 	.area _GSINIT
+                                     89 ;--------------------------------------------------------
+                                     90 ; Home
+                                     91 ;--------------------------------------------------------
+                                     92 	.area _HOME
+                                     93 	.area _HOME
+                                     94 ;--------------------------------------------------------
+                                     95 ; code
+                                     96 ;--------------------------------------------------------
+                                     97 	.area _CODE
+                                     98 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:40: void HeroExecInit(){
+                                     99 ;	---------------------------------
+                                    100 ; Function HeroExecInit
+                                    101 ; ---------------------------------
+      000000                        102 _HeroExecInit::
+                                    103 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:41: set_sprite_palette(0,8,&spritepalette[0]);
+      000000 11rA9r00         [12]  104 	ld	de, #_spritepalette
+      000003 D5               [16]  105 	push	de
+      000004 21 00 08         [12]  106 	ld	hl, #0x800
+      000007 E5               [16]  107 	push	hl
+      000008 CDr00r00         [24]  108 	call	_set_sprite_palette
+      00000B E8 04            [16]  109 	add	sp, #4
+                                    110 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:43: set_sprite_data(0,4,SwordRightUpTile);
+      00000D 11r00r00         [12]  111 	ld	de, #_SwordRightUpTile
+      000010 D5               [16]  112 	push	de
+      000011 21 00 04         [12]  113 	ld	hl, #0x400
+      000014 E5               [16]  114 	push	hl
+      000015 CDr00r00         [24]  115 	call	_set_sprite_data
+      000018 E8 04            [16]  116 	add	sp, #4
+                                    117 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1602: shadow_OAM[nb].tile=tile;
+      00001A 21r02r00         [12]  118 	ld	hl, #(_shadow_OAM + 2)
+      00001D 36 00            [12]  119 	ld	(hl), #0x00
+                                    120 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1648: shadow_OAM[nb].prop=prop;
+      00001F 21r03r00         [12]  121 	ld	hl, #(_shadow_OAM + 3)
+      000022 36 03            [12]  122 	ld	(hl), #0x03
+                                    123 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1602: shadow_OAM[nb].tile=tile;
+      000024 21r06r00         [12]  124 	ld	hl, #(_shadow_OAM + 6)
+      000027 36 02            [12]  125 	ld	(hl), #0x02
+                                    126 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1648: shadow_OAM[nb].prop=prop;
+      000029 21r07r00         [12]  127 	ld	hl, #(_shadow_OAM + 7)
+      00002C 36 03            [12]  128 	ld	(hl), #0x03
+                                    129 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:49: set_sprite_data(4,4,HeroDownTile);
+      00002E 11r00r00         [12]  130 	ld	de, #_HeroDownTile
+      000031 D5               [16]  131 	push	de
+      000032 21 04 04         [12]  132 	ld	hl, #0x404
+      000035 E5               [16]  133 	push	hl
+      000036 CDr00r00         [24]  134 	call	_set_sprite_data
+      000039 E8 04            [16]  135 	add	sp, #4
+                                    136 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1602: shadow_OAM[nb].tile=tile;
+      00003B 21r0Ar00         [12]  137 	ld	hl, #(_shadow_OAM + 10)
+      00003E 36 04            [12]  138 	ld	(hl), #0x04
+                                    139 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1648: shadow_OAM[nb].prop=prop;
+      000040 21r0Br00         [12]  140 	ld	hl, #(_shadow_OAM + 11)
+      000043 36 00            [12]  141 	ld	(hl), #0x00
+                                    142 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1602: shadow_OAM[nb].tile=tile;
+      000045 21r0Er00         [12]  143 	ld	hl, #(_shadow_OAM + 14)
+      000048 36 06            [12]  144 	ld	(hl), #0x06
+                                    145 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1648: shadow_OAM[nb].prop=prop;
+      00004A 21r0Fr00         [12]  146 	ld	hl, #(_shadow_OAM + 15)
+      00004D 36 00            [12]  147 	ld	(hl), #0x00
+                                    148 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:54: spriteX=80;
+      00004F 21r01r00         [12]  149 	ld	hl, #_spriteX
+      000052 36 50            [12]  150 	ld	(hl), #0x50
+                                    151 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:55: spriteY=72;
+      000054 21r02r00         [12]  152 	ld	hl, #_spriteY
+      000057 36 48            [12]  153 	ld	(hl), #0x48
+                                    154 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000059 21r08r00         [12]  155 	ld	hl, #(_shadow_OAM + 8)
+                                    156 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00005C 3E 48            [ 8]  157 	ld	a, #0x48
+      00005E 22               [ 8]  158 	ld	(hl+), a
+      00005F 36 50            [12]  159 	ld	(hl), #0x50
+                                    160 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:57: move_sprite(3, spriteX + 8, spriteY);
+      000061 21r02r00         [12]  161 	ld	hl, #_spriteY
+      000064 46               [ 8]  162 	ld	b, (hl)
+      000065 FAr01r00         [16]  163 	ld	a, (#_spriteX)
+      000068 C6 08            [ 8]  164 	add	a, #0x08
+      00006A 4F               [ 4]  165 	ld	c, a
+                                    166 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      00006B 21r0Cr00         [12]  167 	ld	hl, #(_shadow_OAM + 12)
+                                    168 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00006E 78               [ 4]  169 	ld	a, b
+      00006F 22               [ 8]  170 	ld	(hl+), a
+      000070 71               [ 8]  171 	ld	(hl), c
+                                    172 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:58: velocityX=0;
+      000071 21r05r00         [12]  173 	ld	hl, #_velocityX
+      000074 36 00            [12]  174 	ld	(hl), #0x00
+                                    175 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:59: velocityY=0;
+      000076 21r06r00         [12]  176 	ld	hl, #_velocityY
+      000079 36 00            [12]  177 	ld	(hl), #0x00
+                                    178 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:60: actionCnt=0;
+      00007B 21r07r00         [12]  179 	ld	hl, #_actionCnt
+      00007E 36 00            [12]  180 	ld	(hl), #0x00
+                                    181 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:61: heroAction=NOACTION;
+      000080 21r0Ar00         [12]  182 	ld	hl, #_heroAction
+      000083 36 00            [12]  183 	ld	(hl), #0x00
+                                    184 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:62: bkgX = 0;
+      000085 21r03r00         [12]  185 	ld	hl, #_bkgX
+      000088 36 00            [12]  186 	ld	(hl), #0x00
+                                    187 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:63: bkgY = 0;
+      00008A 21r04r00         [12]  188 	ld	hl, #_bkgY
+      00008D 36 00            [12]  189 	ld	(hl), #0x00
+                                    190 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:64: blinkFlag = FALSE;
+      00008F 21r0Dr00         [12]  191 	ld	hl, #_blinkFlag
+      000092 36 00            [12]  192 	ld	(hl), #0x00
+                                    193 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:65: blinkCnt = 0;
+      000094 21r08r00         [12]  194 	ld	hl, #_blinkCnt
+      000097 36 00            [12]  195 	ld	(hl), #0x00
+                                    196 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:66: swordAction = NOACTION;
+      000099 21r0Cr00         [12]  197 	ld	hl, #_swordAction
+      00009C 36 00            [12]  198 	ld	(hl), #0x00
+                                    199 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:67: swordCnt = 0;
+      00009E 21r09r00         [12]  200 	ld	hl, #_swordCnt
+      0000A1 36 00            [12]  201 	ld	(hl), #0x00
+                                    202 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:68: direction = DOWN;
+      0000A3 21r0Br00         [12]  203 	ld	hl, #_direction
+      0000A6 36 02            [12]  204 	ld	(hl), #0x02
+                                    205 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:69: }
+      0000A8 C9               [16]  206 	ret
+      0000A9                        207 _spritepalette:
+      0000A9 FF 7F                  208 	.dw #0x7fff
+      0000AB FF 7F                  209 	.dw #0x7fff
+      0000AD 9F 0D                  210 	.dw #0x0d9f
+      0000AF 00 00                  211 	.dw #0x0000
+      0000B1 FF 7F                  212 	.dw #0x7fff
+      0000B3 7E 77                  213 	.dw #0x777e
+      0000B5 1C 54                  214 	.dw #0x541c
+      0000B7 00 00                  215 	.dw #0x0000
+      0000B9 FF 7F                  216 	.dw #0x7fff
+      0000BB 9C 03                  217 	.dw #0x039c
+      0000BD FF 03                  218 	.dw #0x03ff
+      0000BF 00 00                  219 	.dw #0x0000
+      0000C1 FF 7F                  220 	.dw #0x7fff
+      0000C3 FF 7F                  221 	.dw #0x7fff
+      0000C5 18 63                  222 	.dw #0x6318
+      0000C7 00 00                  223 	.dw #0x0000
+      0000C9 FF 7F                  224 	.dw #0x7fff
+      0000CB FF 7F                  225 	.dw #0x7fff
+      0000CD 9F 0D                  226 	.dw #0x0d9f
+      0000CF 00 00                  227 	.dw #0x0000
+      0000D1 FF 7F                  228 	.dw #0x7fff
+      0000D3 FF 7F                  229 	.dw #0x7fff
+      0000D5 9F 0D                  230 	.dw #0x0d9f
+      0000D7 00 00                  231 	.dw #0x0000
+      0000D9 FF 7F                  232 	.dw #0x7fff
+      0000DB FF 7F                  233 	.dw #0x7fff
+      0000DD 9F 0D                  234 	.dw #0x0d9f
+      0000DF 00 00                  235 	.dw #0x0000
+      0000E1 FF 7F                  236 	.dw #0x7fff
+      0000E3 FF 7F                  237 	.dw #0x7fff
+      0000E5 9F 0D                  238 	.dw #0x0d9f
+      0000E7 00 00                  239 	.dw #0x0000
+                                    240 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:71: uint8_t *getSpriteX(){
+                                    241 ;	---------------------------------
+                                    242 ; Function getSpriteX
+                                    243 ; ---------------------------------
+      0000E9                        244 _getSpriteX::
+                                    245 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:72: return &spriteX;
+      0000E9 01r01r00         [12]  246 	ld	bc, #_spriteX
+                                    247 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:73: }
+      0000EC C9               [16]  248 	ret
+                                    249 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:75: uint8_t *getSpriteY(){
+                                    250 ;	---------------------------------
+                                    251 ; Function getSpriteY
+                                    252 ; ---------------------------------
+      0000ED                        253 _getSpriteY::
+                                    254 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:76: return &spriteY;
+      0000ED 01r02r00         [12]  255 	ld	bc, #_spriteY
+                                    256 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:77: }
+      0000F0 C9               [16]  257 	ret
+                                    258 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:79: uint8_t *getBkgX(){
+                                    259 ;	---------------------------------
+                                    260 ; Function getBkgX
+                                    261 ; ---------------------------------
+      0000F1                        262 _getBkgX::
+                                    263 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:80: return &bkgX;
+      0000F1 01r03r00         [12]  264 	ld	bc, #_bkgX
+                                    265 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:81: }
+      0000F4 C9               [16]  266 	ret
+                                    267 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:83: uint8_t *getBkgY(){
+                                    268 ;	---------------------------------
+                                    269 ; Function getBkgY
+                                    270 ; ---------------------------------
+      0000F5                        271 _getBkgY::
+                                    272 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:84: return &bkgY;
+      0000F5 01r04r00         [12]  273 	ld	bc, #_bkgY
+                                    274 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:85: }
+      0000F8 C9               [16]  275 	ret
+                                    276 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:87: void HeroExec(){
+                                    277 ;	---------------------------------
+                                    278 ; Function HeroExec
+                                    279 ; ---------------------------------
+      0000F9                        280 _HeroExec::
+      0000F9 E8 F9            [16]  281 	add	sp, #-7
+                                    282 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:88: if(heroAction == NOACTION && swordAction == NOACTION){
+      0000FB FAr0Ar00         [16]  283 	ld	a, (#_heroAction)
+      0000FE B7               [ 4]  284 	or	a, a
+      0000FF 20 4F            [12]  285 	jr	NZ, 00116$
+      000101 FAr0Cr00         [16]  286 	ld	a, (#_swordAction)
+      000104 B7               [ 4]  287 	or	a, a
+      000105 20 49            [12]  288 	jr	NZ, 00116$
+                                    289 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:89: if(joypad() & J_RIGHT){
+      000107 CDr00r00         [24]  290 	call	_joypad
+      00010A 0F               [ 4]  291 	rrca
+      00010B 30 05            [12]  292 	jr	NC, 00102$
+                                    293 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:90: heroAction = MOVERIGHT;
+      00010D 21r0Ar00         [12]  294 	ld	hl, #_heroAction
+      000110 36 02            [12]  295 	ld	(hl), #0x02
+      000112                        296 00102$:
+                                    297 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:92: if(joypad() & J_LEFT){
+      000112 CDr00r00         [24]  298 	call	_joypad
+      000115 CB 4F            [ 8]  299 	bit	1, a
+      000117 28 05            [12]  300 	jr	Z, 00104$
+                                    301 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:93: heroAction = MOVELEFT;
+      000119 21r0Ar00         [12]  302 	ld	hl, #_heroAction
+      00011C 36 04            [12]  303 	ld	(hl), #0x04
+      00011E                        304 00104$:
+                                    305 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:95: if(joypad() & J_UP){
+      00011E CDr00r00         [24]  306 	call	_joypad
+      000121 CB 57            [ 8]  307 	bit	2, a
+      000123 28 05            [12]  308 	jr	Z, 00106$
+                                    309 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:96: heroAction = MOVEUP;
+      000125 21r0Ar00         [12]  310 	ld	hl, #_heroAction
+      000128 36 01            [12]  311 	ld	(hl), #0x01
+      00012A                        312 00106$:
+                                    313 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:98: if(joypad() & J_DOWN){
+      00012A CDr00r00         [24]  314 	call	_joypad
+      00012D CB 5F            [ 8]  315 	bit	3, a
+      00012F 28 05            [12]  316 	jr	Z, 00108$
+                                    317 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:99: heroAction = MOVEDOWN;
+      000131 21r0Ar00         [12]  318 	ld	hl, #_heroAction
+      000134 36 03            [12]  319 	ld	(hl), #0x03
+      000136                        320 00108$:
+                                    321 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:101: if(joypad() & J_A){
+      000136 CDr00r00         [24]  322 	call	_joypad
+      000139 CB 67            [ 8]  323 	bit	4, a
+      00013B 28 0B            [12]  324 	jr	Z, 00112$
+                                    325 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:102: if(blinkFlag == FALSE){
+      00013D FAr0Dr00         [16]  326 	ld	a, (#_blinkFlag)
+      000140 B7               [ 4]  327 	or	a, a
+      000141 20 05            [12]  328 	jr	NZ, 00112$
+                                    329 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:103: swordAction = SWORD;
+      000143 21r0Cr00         [12]  330 	ld	hl, #_swordAction
+      000146 36 01            [12]  331 	ld	(hl), #0x01
+      000148                        332 00112$:
+                                    333 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:106: if(joypad() & J_B){
+      000148 CDr00r00         [24]  334 	call	_joypad
+                                    335 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:108: actionCnt = 0;
+      00014B 21r07r00         [12]  336 	ld	hl, #_actionCnt
+      00014E 36 00            [12]  337 	ld	(hl), #0x00
+      000150                        338 00116$:
+                                    339 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:110: if(heroAction != NOACTION && swordAction == NOACTION){
+      000150 FAr0Ar00         [16]  340 	ld	a, (#_heroAction)
+      000153 B7               [ 4]  341 	or	a, a
+      000154 CArAEr04         [16]  342 	jp	Z, 00206$
+      000157 FAr0Cr00         [16]  343 	ld	a, (#_swordAction)
+      00015A B7               [ 4]  344 	or	a, a
+      00015B C2rAEr04         [16]  345 	jp	NZ, 00206$
+                                    346 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:116: else if(actionCnt == 5){
+      00015E FAr07r00         [16]  347 	ld	a, (#_actionCnt)
+      000161 D6 05            [ 8]  348 	sub	a, #0x05
+      000163 3E 01            [ 8]  349 	ld	a, #0x01
+      000165 28 01            [12]  350 	jr	Z, 00856$
+      000167 AF               [ 4]  351 	xor	a, a
+      000168                        352 00856$:
+      000168 4F               [ 4]  353 	ld	c, a
+                                    354 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:119: else if(actionCnt == 10){
+      000169 FAr07r00         [16]  355 	ld	a, (#_actionCnt)
+      00016C D6 0A            [ 8]  356 	sub	a, #0x0a
+      00016E 3E 01            [ 8]  357 	ld	a, #0x01
+      000170 28 01            [12]  358 	jr	Z, 00858$
+      000172 AF               [ 4]  359 	xor	a, a
+      000173                        360 00858$:
+      000173 47               [ 4]  361 	ld	b, a
+                                    362 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:111: if(heroAction == MOVERIGHT){
+      000174 FAr0Ar00         [16]  363 	ld	a, (#_heroAction)
+      000177 D6 02            [ 8]  364 	sub	a, #0x02
+      000179 C2r47r02         [16]  365 	jp	NZ,00203$
+                                    366 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:112: if(actionCnt == 0){
+      00017C FAr07r00         [16]  367 	ld	a, (#_actionCnt)
+      00017F B7               [ 4]  368 	or	a, a
+      000180 20 14            [12]  369 	jr	NZ, 00124$
+                                    370 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:113: set_sprite_data(4,4,HeroRightTile);
+      000182 11r00r00         [12]  371 	ld	de, #_HeroRightTile
+      000185 D5               [16]  372 	push	de
+      000186 21 04 04         [12]  373 	ld	hl, #0x404
+      000189 E5               [16]  374 	push	hl
+      00018A CDr00r00         [24]  375 	call	_set_sprite_data
+      00018D E8 04            [16]  376 	add	sp, #4
+                                    377 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:114: direction = RIGHT;
+      00018F 21r0Br00         [12]  378 	ld	hl, #_direction
+      000192 36 01            [12]  379 	ld	(hl), #0x01
+      000194 18 29            [12]  380 	jr	00125$
+      000196                        381 00124$:
+                                    382 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:116: else if(actionCnt == 5){
+      000196 79               [ 4]  383 	ld	a, c
+      000197 B7               [ 4]  384 	or	a, a
+      000198 28 0F            [12]  385 	jr	Z, 00121$
+                                    386 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:117: set_sprite_data(4,4,HeroRightWalkTile);
+      00019A 11r00r00         [12]  387 	ld	de, #_HeroRightWalkTile
+      00019D D5               [16]  388 	push	de
+      00019E 21 04 04         [12]  389 	ld	hl, #0x404
+      0001A1 E5               [16]  390 	push	hl
+      0001A2 CDr00r00         [24]  391 	call	_set_sprite_data
+      0001A5 E8 04            [16]  392 	add	sp, #4
+      0001A7 18 16            [12]  393 	jr	00125$
+      0001A9                        394 00121$:
+                                    395 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:119: else if(actionCnt == 10){
+      0001A9 78               [ 4]  396 	ld	a, b
+      0001AA B7               [ 4]  397 	or	a, a
+      0001AB 28 12            [12]  398 	jr	Z, 00125$
+                                    399 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:120: set_sprite_data(4,4,HeroRightTile);
+      0001AD 11r00r00         [12]  400 	ld	de, #_HeroRightTile
+      0001B0 D5               [16]  401 	push	de
+      0001B1 21 04 04         [12]  402 	ld	hl, #0x404
+      0001B4 E5               [16]  403 	push	hl
+      0001B5 CDr00r00         [24]  404 	call	_set_sprite_data
+      0001B8 E8 04            [16]  405 	add	sp, #4
+                                    406 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:121: heroAction = NOACTION;
+      0001BA 21r0Ar00         [12]  407 	ld	hl, #_heroAction
+      0001BD 36 00            [12]  408 	ld	(hl), #0x00
+      0001BF                        409 00125$:
+                                    410 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:123: if(actionCnt == 5 || actionCnt == 10){
+      0001BF FAr07r00         [16]  411 	ld	a, (#_actionCnt)
+      0001C2 D6 05            [ 8]  412 	sub	a, #0x05
+      0001C4 28 08            [12]  413 	jr	Z, 00134$
+      0001C6 FAr07r00         [16]  414 	ld	a, (#_actionCnt)
+      0001C9 D6 0A            [ 8]  415 	sub	a, #0x0a
+      0001CB C2rAAr04         [16]  416 	jp	NZ,00204$
+      0001CE                        417 00134$:
+                                    418 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:126: spriteX += 4;
+      0001CE FAr01r00         [16]  419 	ld	a, (#_spriteX)
+                                    420 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:127: move_sprite(2,spriteX,spriteY);
+      0001D1 21r02r00         [12]  421 	ld	hl, #_spriteY
+      0001D4 5E               [ 8]  422 	ld	e, (hl)
+                                    423 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:126: spriteX += 4;
+      0001D5 C6 04            [ 8]  424 	add	a, #0x04
+      0001D7 4F               [ 4]  425 	ld	c, a
+                                    426 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:124: if(bkgX == 96){
+      0001D8 FAr03r00         [16]  427 	ld	a, (#_bkgX)
+      0001DB D6 60            [ 8]  428 	sub	a, #0x60
+      0001DD 20 26            [12]  429 	jr	NZ, 00132$
+                                    430 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:125: if(spriteX != 120){
+      0001DF FAr01r00         [16]  431 	ld	a, (#_spriteX)
+      0001E2 D6 78            [ 8]  432 	sub	a, #0x78
+      0001E4 CArAAr04         [16]  433 	jp	Z,00204$
+                                    434 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:126: spriteX += 4;
+      0001E7 21r01r00         [12]  435 	ld	hl, #_spriteX
+      0001EA 71               [ 8]  436 	ld	(hl), c
+                                    437 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:127: move_sprite(2,spriteX,spriteY);
+      0001EB 4E               [ 8]  438 	ld	c, (hl)
+                                    439 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0001EC 21r08r00         [12]  440 	ld	hl, #(_shadow_OAM + 8)
+                                    441 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0001EF 7B               [ 4]  442 	ld	a, e
+      0001F0 22               [ 8]  443 	ld	(hl+), a
+      0001F1 71               [ 8]  444 	ld	(hl), c
+                                    445 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:128: move_sprite(3,spriteX+8,spriteY);
+      0001F2 21r02r00         [12]  446 	ld	hl, #_spriteY
+      0001F5 5E               [ 8]  447 	ld	e, (hl)
+      0001F6 FAr01r00         [16]  448 	ld	a, (#_spriteX)
+      0001F9 C6 08            [ 8]  449 	add	a, #0x08
+      0001FB 4F               [ 4]  450 	ld	c, a
+                                    451 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0001FC 21r0Cr00         [12]  452 	ld	hl, #(_shadow_OAM + 12)
+                                    453 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0001FF 7B               [ 4]  454 	ld	a, e
+      000200 22               [ 8]  455 	ld	(hl+), a
+      000201 71               [ 8]  456 	ld	(hl), c
+                                    457 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:128: move_sprite(3,spriteX+8,spriteY);
+      000202 C3rAAr04         [16]  458 	jp	00204$
+      000205                        459 00132$:
+                                    460 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:132: if(spriteX != 80){
+      000205 FAr01r00         [16]  461 	ld	a, (#_spriteX)
+      000208 D6 50            [ 8]  462 	sub	a, #0x50
+      00020A 28 1E            [12]  463 	jr	Z, 00129$
+                                    464 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:133: spriteX += 4;
+      00020C 21r01r00         [12]  465 	ld	hl, #_spriteX
+      00020F 71               [ 8]  466 	ld	(hl), c
+                                    467 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:134: move_sprite(2,spriteX,spriteY);
+      000210 4E               [ 8]  468 	ld	c, (hl)
+                                    469 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000211 21r08r00         [12]  470 	ld	hl, #(_shadow_OAM + 8)
+                                    471 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000214 7B               [ 4]  472 	ld	a, e
+      000215 22               [ 8]  473 	ld	(hl+), a
+      000216 71               [ 8]  474 	ld	(hl), c
+                                    475 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:135: move_sprite(3,spriteX+8,spriteY);
+      000217 21r02r00         [12]  476 	ld	hl, #_spriteY
+      00021A 46               [ 8]  477 	ld	b, (hl)
+      00021B FAr01r00         [16]  478 	ld	a, (#_spriteX)
+      00021E C6 08            [ 8]  479 	add	a, #0x08
+      000220 4F               [ 4]  480 	ld	c, a
+                                    481 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000221 21r0Cr00         [12]  482 	ld	hl, #(_shadow_OAM + 12)
+                                    483 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000224 78               [ 4]  484 	ld	a, b
+      000225 22               [ 8]  485 	ld	(hl+), a
+      000226 71               [ 8]  486 	ld	(hl), c
+                                    487 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:135: move_sprite(3,spriteX+8,spriteY);
+      000227 C3rAAr04         [16]  488 	jp	00204$
+      00022A                        489 00129$:
+                                    490 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:138: bkgX += 4;
+      00022A 21r03r00         [12]  491 	ld	hl, #_bkgX
+      00022D 7E               [ 8]  492 	ld	a, (hl)
+      00022E C6 04            [ 8]  493 	add	a, #0x04
+      000230 77               [ 8]  494 	ld	(hl), a
+                                    495 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:139: move_bkg(bkgX,bkgY);
+      000231 21r04r00         [12]  496 	ld	hl, #_bkgY
+      000234 4E               [ 8]  497 	ld	c, (hl)
+      000235 FAr03r00         [16]  498 	ld	a, (#_bkgX)
+      000238 E0r00            [12]  499 	ldh	(_SCX_REG + 0), a
+                                    500 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1208: SCX_REG=x, SCY_REG=y;
+      00023A 79               [ 4]  501 	ld	a, c
+      00023B E0r00            [12]  502 	ldh	(_SCY_REG + 0), a
+                                    503 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:140: EyePosAdjust(-4,0);
+      00023D 1E 00            [ 8]  504 	ld	e, #0x00
+      00023F 3E FC            [ 8]  505 	ld	a, #0xfc
+      000241 CDr00r00         [24]  506 	call	_EyePosAdjust
+      000244 C3rAAr04         [16]  507 	jp	00204$
+      000247                        508 00203$:
+                                    509 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:145: else if(heroAction == MOVELEFT){
+      000247 FAr0Ar00         [16]  510 	ld	a, (#_heroAction)
+      00024A D6 04            [ 8]  511 	sub	a, #0x04
+      00024C C2r19r03         [16]  512 	jp	NZ,00200$
+                                    513 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:146: if(actionCnt == 0){
+      00024F FAr07r00         [16]  514 	ld	a, (#_actionCnt)
+      000252 B7               [ 4]  515 	or	a, a
+      000253 20 14            [12]  516 	jr	NZ, 00143$
+                                    517 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:147: set_sprite_data(4,4,HeroLeftTile);
+      000255 11r00r00         [12]  518 	ld	de, #_HeroLeftTile
+      000258 D5               [16]  519 	push	de
+      000259 21 04 04         [12]  520 	ld	hl, #0x404
+      00025C E5               [16]  521 	push	hl
+      00025D CDr00r00         [24]  522 	call	_set_sprite_data
+      000260 E8 04            [16]  523 	add	sp, #4
+                                    524 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:148: direction = LEFT;
+      000262 21r0Br00         [12]  525 	ld	hl, #_direction
+      000265 36 03            [12]  526 	ld	(hl), #0x03
+      000267 18 29            [12]  527 	jr	00144$
+      000269                        528 00143$:
+                                    529 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:150: else if(actionCnt == 5){
+      000269 79               [ 4]  530 	ld	a, c
+      00026A B7               [ 4]  531 	or	a, a
+      00026B 28 0F            [12]  532 	jr	Z, 00140$
+                                    533 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:151: set_sprite_data(4,4,HeroLeftWalkTile);
+      00026D 11r00r00         [12]  534 	ld	de, #_HeroLeftWalkTile
+      000270 D5               [16]  535 	push	de
+      000271 21 04 04         [12]  536 	ld	hl, #0x404
+      000274 E5               [16]  537 	push	hl
+      000275 CDr00r00         [24]  538 	call	_set_sprite_data
+      000278 E8 04            [16]  539 	add	sp, #4
+      00027A 18 16            [12]  540 	jr	00144$
+      00027C                        541 00140$:
+                                    542 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:153: else if(actionCnt == 10){
+      00027C 78               [ 4]  543 	ld	a, b
+      00027D B7               [ 4]  544 	or	a, a
+      00027E 28 12            [12]  545 	jr	Z, 00144$
+                                    546 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:154: set_sprite_data(4,4,HeroLeftTile);
+      000280 11r00r00         [12]  547 	ld	de, #_HeroLeftTile
+      000283 D5               [16]  548 	push	de
+      000284 21 04 04         [12]  549 	ld	hl, #0x404
+      000287 E5               [16]  550 	push	hl
+      000288 CDr00r00         [24]  551 	call	_set_sprite_data
+      00028B E8 04            [16]  552 	add	sp, #4
+                                    553 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:155: heroAction = NOACTION;
+      00028D 21r0Ar00         [12]  554 	ld	hl, #_heroAction
+      000290 36 00            [12]  555 	ld	(hl), #0x00
+      000292                        556 00144$:
+                                    557 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:157: if(actionCnt == 5 || actionCnt == 10){
+      000292 FAr07r00         [16]  558 	ld	a, (#_actionCnt)
+      000295 D6 05            [ 8]  559 	sub	a, #0x05
+      000297 28 08            [12]  560 	jr	Z, 00153$
+      000299 FAr07r00         [16]  561 	ld	a, (#_actionCnt)
+      00029C D6 0A            [ 8]  562 	sub	a, #0x0a
+      00029E C2rAAr04         [16]  563 	jp	NZ,00204$
+      0002A1                        564 00153$:
+                                    565 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:126: spriteX += 4;
+      0002A1 FAr01r00         [16]  566 	ld	a, (#_spriteX)
+                                    567 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:127: move_sprite(2,spriteX,spriteY);
+      0002A4 21r02r00         [12]  568 	ld	hl, #_spriteY
+      0002A7 5E               [ 8]  569 	ld	e, (hl)
+                                    570 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:160: spriteX -= 4;
+      0002A8 C6 FC            [ 8]  571 	add	a, #0xfc
+      0002AA 4F               [ 4]  572 	ld	c, a
+                                    573 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:158: if(bkgX == 0){
+      0002AB FAr03r00         [16]  574 	ld	a, (#_bkgX)
+      0002AE B7               [ 4]  575 	or	a, a
+      0002AF 20 26            [12]  576 	jr	NZ, 00151$
+                                    577 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:159: if(spriteX != 40){
+      0002B1 FAr01r00         [16]  578 	ld	a, (#_spriteX)
+      0002B4 D6 28            [ 8]  579 	sub	a, #0x28
+      0002B6 CArAAr04         [16]  580 	jp	Z,00204$
+                                    581 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:160: spriteX -= 4;
+      0002B9 21r01r00         [12]  582 	ld	hl, #_spriteX
+      0002BC 71               [ 8]  583 	ld	(hl), c
+                                    584 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:161: move_sprite(2,spriteX,spriteY);
+      0002BD 4E               [ 8]  585 	ld	c, (hl)
+                                    586 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0002BE 21r08r00         [12]  587 	ld	hl, #(_shadow_OAM + 8)
+                                    588 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0002C1 7B               [ 4]  589 	ld	a, e
+      0002C2 22               [ 8]  590 	ld	(hl+), a
+      0002C3 71               [ 8]  591 	ld	(hl), c
+                                    592 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:162: move_sprite(3,spriteX+8,spriteY);
+      0002C4 21r02r00         [12]  593 	ld	hl, #_spriteY
+      0002C7 5E               [ 8]  594 	ld	e, (hl)
+      0002C8 FAr01r00         [16]  595 	ld	a, (#_spriteX)
+      0002CB C6 08            [ 8]  596 	add	a, #0x08
+      0002CD 4F               [ 4]  597 	ld	c, a
+                                    598 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0002CE 21r0Cr00         [12]  599 	ld	hl, #(_shadow_OAM + 12)
+                                    600 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0002D1 7B               [ 4]  601 	ld	a, e
+      0002D2 22               [ 8]  602 	ld	(hl+), a
+      0002D3 71               [ 8]  603 	ld	(hl), c
+                                    604 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:162: move_sprite(3,spriteX+8,spriteY);
+      0002D4 C3rAAr04         [16]  605 	jp	00204$
+      0002D7                        606 00151$:
+                                    607 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:166: if(spriteX != 80){
+      0002D7 FAr01r00         [16]  608 	ld	a, (#_spriteX)
+      0002DA D6 50            [ 8]  609 	sub	a, #0x50
+      0002DC 28 1E            [12]  610 	jr	Z, 00148$
+                                    611 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:167: spriteX -= 4;
+      0002DE 21r01r00         [12]  612 	ld	hl, #_spriteX
+      0002E1 71               [ 8]  613 	ld	(hl), c
+                                    614 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:168: move_sprite(2,spriteX,spriteY);
+      0002E2 4E               [ 8]  615 	ld	c, (hl)
+                                    616 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0002E3 21r08r00         [12]  617 	ld	hl, #(_shadow_OAM + 8)
+                                    618 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0002E6 7B               [ 4]  619 	ld	a, e
+      0002E7 22               [ 8]  620 	ld	(hl+), a
+      0002E8 71               [ 8]  621 	ld	(hl), c
+                                    622 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:169: move_sprite(3,spriteX+8,spriteY);
+      0002E9 21r02r00         [12]  623 	ld	hl, #_spriteY
+      0002EC 46               [ 8]  624 	ld	b, (hl)
+      0002ED FAr01r00         [16]  625 	ld	a, (#_spriteX)
+      0002F0 C6 08            [ 8]  626 	add	a, #0x08
+      0002F2 4F               [ 4]  627 	ld	c, a
+                                    628 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0002F3 21r0Cr00         [12]  629 	ld	hl, #(_shadow_OAM + 12)
+                                    630 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0002F6 78               [ 4]  631 	ld	a, b
+      0002F7 22               [ 8]  632 	ld	(hl+), a
+      0002F8 71               [ 8]  633 	ld	(hl), c
+                                    634 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:169: move_sprite(3,spriteX+8,spriteY);
+      0002F9 C3rAAr04         [16]  635 	jp	00204$
+      0002FC                        636 00148$:
+                                    637 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:172: bkgX -= 4;
+      0002FC 21r03r00         [12]  638 	ld	hl, #_bkgX
+      0002FF 7E               [ 8]  639 	ld	a, (hl)
+      000300 C6 FC            [ 8]  640 	add	a, #0xfc
+      000302 77               [ 8]  641 	ld	(hl), a
+                                    642 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:173: move_bkg(bkgX,bkgY);
+      000303 21r04r00         [12]  643 	ld	hl, #_bkgY
+      000306 4E               [ 8]  644 	ld	c, (hl)
+      000307 FAr03r00         [16]  645 	ld	a, (#_bkgX)
+      00030A E0r00            [12]  646 	ldh	(_SCX_REG + 0), a
+                                    647 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1208: SCX_REG=x, SCY_REG=y;
+      00030C 79               [ 4]  648 	ld	a, c
+      00030D E0r00            [12]  649 	ldh	(_SCY_REG + 0), a
+                                    650 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:174: EyePosAdjust(4,0);
+      00030F 1E 00            [ 8]  651 	ld	e, #0x00
+      000311 3E 04            [ 8]  652 	ld	a, #0x04
+      000313 CDr00r00         [24]  653 	call	_EyePosAdjust
+      000316 C3rAAr04         [16]  654 	jp	00204$
+      000319                        655 00200$:
+                                    656 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:179: else if(heroAction == MOVEUP){
+      000319 FAr0Ar00         [16]  657 	ld	a, (#_heroAction)
+      00031C 3D               [ 4]  658 	dec	a
+      00031D C2rE4r03         [16]  659 	jp	NZ,00197$
+                                    660 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:180: if(actionCnt == 0){
+      000320 FAr07r00         [16]  661 	ld	a, (#_actionCnt)
+      000323 B7               [ 4]  662 	or	a, a
+      000324 20 14            [12]  663 	jr	NZ, 00162$
+                                    664 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:181: set_sprite_data(4,4,HeroUpTile);
+      000326 11r00r00         [12]  665 	ld	de, #_HeroUpTile
+      000329 D5               [16]  666 	push	de
+      00032A 21 04 04         [12]  667 	ld	hl, #0x404
+      00032D E5               [16]  668 	push	hl
+      00032E CDr00r00         [24]  669 	call	_set_sprite_data
+      000331 E8 04            [16]  670 	add	sp, #4
+                                    671 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:182: direction = UP;
+      000333 21r0Br00         [12]  672 	ld	hl, #_direction
+      000336 36 00            [12]  673 	ld	(hl), #0x00
+      000338 18 29            [12]  674 	jr	00163$
+      00033A                        675 00162$:
+                                    676 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:184: else if(actionCnt == 5){
+      00033A 79               [ 4]  677 	ld	a, c
+      00033B B7               [ 4]  678 	or	a, a
+      00033C 28 0F            [12]  679 	jr	Z, 00159$
+                                    680 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:185: set_sprite_data(4,4,HeroUpWalkTile);
+      00033E 11r00r00         [12]  681 	ld	de, #_HeroUpWalkTile
+      000341 D5               [16]  682 	push	de
+      000342 21 04 04         [12]  683 	ld	hl, #0x404
+      000345 E5               [16]  684 	push	hl
+      000346 CDr00r00         [24]  685 	call	_set_sprite_data
+      000349 E8 04            [16]  686 	add	sp, #4
+      00034B 18 16            [12]  687 	jr	00163$
+      00034D                        688 00159$:
+                                    689 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:187: else if(actionCnt == 10){
+      00034D 78               [ 4]  690 	ld	a, b
+      00034E B7               [ 4]  691 	or	a, a
+      00034F 28 12            [12]  692 	jr	Z, 00163$
+                                    693 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:188: set_sprite_data(4,4,HeroUpTile);
+      000351 11r00r00         [12]  694 	ld	de, #_HeroUpTile
+      000354 D5               [16]  695 	push	de
+      000355 21 04 04         [12]  696 	ld	hl, #0x404
+      000358 E5               [16]  697 	push	hl
+      000359 CDr00r00         [24]  698 	call	_set_sprite_data
+      00035C E8 04            [16]  699 	add	sp, #4
+                                    700 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:189: heroAction = NOACTION;
+      00035E 21r0Ar00         [12]  701 	ld	hl, #_heroAction
+      000361 36 00            [12]  702 	ld	(hl), #0x00
+      000363                        703 00163$:
+                                    704 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:191: if(actionCnt == 5 || actionCnt == 10){
+      000363 FAr07r00         [16]  705 	ld	a, (#_actionCnt)
+      000366 D6 05            [ 8]  706 	sub	a, #0x05
+      000368 28 08            [12]  707 	jr	Z, 00172$
+      00036A FAr07r00         [16]  708 	ld	a, (#_actionCnt)
+      00036D D6 0A            [ 8]  709 	sub	a, #0x0a
+      00036F C2rAAr04         [16]  710 	jp	NZ,00204$
+      000372                        711 00172$:
+                                    712 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:127: move_sprite(2,spriteX,spriteY);
+      000372 21r01r00         [12]  713 	ld	hl, #_spriteX
+      000375 4E               [ 8]  714 	ld	c, (hl)
+                                    715 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:194: spriteY -= 4;
+      000376 FAr02r00         [16]  716 	ld	a, (#_spriteY)
+      000379 C6 FC            [ 8]  717 	add	a, #0xfc
+      00037B 5F               [ 4]  718 	ld	e, a
+                                    719 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:192: if(bkgY == 0){
+      00037C FAr04r00         [16]  720 	ld	a, (#_bkgY)
+      00037F B7               [ 4]  721 	or	a, a
+      000380 20 25            [12]  722 	jr	NZ, 00170$
+                                    723 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:193: if(spriteY != 40){
+      000382 FAr02r00         [16]  724 	ld	a, (#_spriteY)
+      000385 D6 28            [ 8]  725 	sub	a, #0x28
+      000387 CArAAr04         [16]  726 	jp	Z,00204$
+                                    727 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:194: spriteY -= 4;
+      00038A 21r02r00         [12]  728 	ld	hl, #_spriteY
+      00038D 73               [ 8]  729 	ld	(hl), e
+                                    730 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:195: move_sprite(2,spriteX,spriteY);
+                                    731 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                    732 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00038E 7E               [ 8]  733 	ld	a, (hl)
+      00038F 21r08r00         [12]  734 	ld	hl, #(_shadow_OAM + 8)
+      000392 22               [ 8]  735 	ld	(hl+), a
+      000393 71               [ 8]  736 	ld	(hl), c
+                                    737 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:196: move_sprite(3,spriteX+8,spriteY);
+      000394 21r02r00         [12]  738 	ld	hl, #_spriteY
+      000397 5E               [ 8]  739 	ld	e, (hl)
+      000398 FAr01r00         [16]  740 	ld	a, (#_spriteX)
+      00039B C6 08            [ 8]  741 	add	a, #0x08
+      00039D 4F               [ 4]  742 	ld	c, a
+                                    743 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      00039E 21r0Cr00         [12]  744 	ld	hl, #(_shadow_OAM + 12)
+                                    745 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0003A1 7B               [ 4]  746 	ld	a, e
+      0003A2 22               [ 8]  747 	ld	(hl+), a
+      0003A3 71               [ 8]  748 	ld	(hl), c
+                                    749 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:196: move_sprite(3,spriteX+8,spriteY);
+      0003A4 C3rAAr04         [16]  750 	jp	00204$
+      0003A7                        751 00170$:
+                                    752 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:200: if(spriteY != 72){
+      0003A7 FAr02r00         [16]  753 	ld	a, (#_spriteY)
+      0003AA D6 48            [ 8]  754 	sub	a, #0x48
+      0003AC 28 1D            [12]  755 	jr	Z, 00167$
+                                    756 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:201: spriteY -= 4;
+      0003AE 21r02r00         [12]  757 	ld	hl, #_spriteY
+      0003B1 73               [ 8]  758 	ld	(hl), e
+                                    759 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:202: move_sprite(2,spriteX,spriteY);
+                                    760 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                    761 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0003B2 7E               [ 8]  762 	ld	a, (hl)
+      0003B3 21r08r00         [12]  763 	ld	hl, #(_shadow_OAM + 8)
+      0003B6 22               [ 8]  764 	ld	(hl+), a
+      0003B7 71               [ 8]  765 	ld	(hl), c
+                                    766 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:203: move_sprite(3,spriteX+8,spriteY);
+      0003B8 21r02r00         [12]  767 	ld	hl, #_spriteY
+      0003BB 46               [ 8]  768 	ld	b, (hl)
+      0003BC FAr01r00         [16]  769 	ld	a, (#_spriteX)
+      0003BF C6 08            [ 8]  770 	add	a, #0x08
+      0003C1 4F               [ 4]  771 	ld	c, a
+                                    772 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0003C2 21r0Cr00         [12]  773 	ld	hl, #(_shadow_OAM + 12)
+                                    774 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0003C5 78               [ 4]  775 	ld	a, b
+      0003C6 22               [ 8]  776 	ld	(hl+), a
+      0003C7 71               [ 8]  777 	ld	(hl), c
+                                    778 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:203: move_sprite(3,spriteX+8,spriteY);
+      0003C8 C3rAAr04         [16]  779 	jp	00204$
+      0003CB                        780 00167$:
+                                    781 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:206: bkgY -= 4;
+      0003CB 21r04r00         [12]  782 	ld	hl, #_bkgY
+      0003CE 7E               [ 8]  783 	ld	a, (hl)
+      0003CF C6 FC            [ 8]  784 	add	a, #0xfc
+      0003D1 77               [ 8]  785 	ld	(hl), a
+                                    786 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:207: move_bkg(bkgX,bkgY);
+      0003D2 4E               [ 8]  787 	ld	c, (hl)
+      0003D3 FAr03r00         [16]  788 	ld	a, (#_bkgX)
+      0003D6 E0r00            [12]  789 	ldh	(_SCX_REG + 0), a
+                                    790 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1208: SCX_REG=x, SCY_REG=y;
+      0003D8 79               [ 4]  791 	ld	a, c
+      0003D9 E0r00            [12]  792 	ldh	(_SCY_REG + 0), a
+                                    793 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:208: EyePosAdjust(0,4);
+      0003DB 1E 04            [ 8]  794 	ld	e, #0x04
+      0003DD AF               [ 4]  795 	xor	a, a
+      0003DE CDr00r00         [24]  796 	call	_EyePosAdjust
+      0003E1 C3rAAr04         [16]  797 	jp	00204$
+      0003E4                        798 00197$:
+                                    799 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:213: else if(heroAction == MOVEDOWN){
+      0003E4 FAr0Ar00         [16]  800 	ld	a, (#_heroAction)
+      0003E7 D6 03            [ 8]  801 	sub	a, #0x03
+      0003E9 C2rAAr04         [16]  802 	jp	NZ,00204$
+                                    803 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:214: if(actionCnt == 0){
+      0003EC FAr07r00         [16]  804 	ld	a, (#_actionCnt)
+      0003EF B7               [ 4]  805 	or	a, a
+      0003F0 20 14            [12]  806 	jr	NZ, 00181$
+                                    807 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:215: set_sprite_data(4,4,HeroDownTile);
+      0003F2 11r00r00         [12]  808 	ld	de, #_HeroDownTile
+      0003F5 D5               [16]  809 	push	de
+      0003F6 21 04 04         [12]  810 	ld	hl, #0x404
+      0003F9 E5               [16]  811 	push	hl
+      0003FA CDr00r00         [24]  812 	call	_set_sprite_data
+      0003FD E8 04            [16]  813 	add	sp, #4
+                                    814 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:216: direction = DOWN;
+      0003FF 21r0Br00         [12]  815 	ld	hl, #_direction
+      000402 36 02            [12]  816 	ld	(hl), #0x02
+      000404 18 29            [12]  817 	jr	00182$
+      000406                        818 00181$:
+                                    819 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:218: else if(actionCnt == 5){
+      000406 79               [ 4]  820 	ld	a, c
+      000407 B7               [ 4]  821 	or	a, a
+      000408 28 0F            [12]  822 	jr	Z, 00178$
+                                    823 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:219: set_sprite_data(4,4,HeroDownWalkTile);
+      00040A 11r00r00         [12]  824 	ld	de, #_HeroDownWalkTile
+      00040D D5               [16]  825 	push	de
+      00040E 21 04 04         [12]  826 	ld	hl, #0x404
+      000411 E5               [16]  827 	push	hl
+      000412 CDr00r00         [24]  828 	call	_set_sprite_data
+      000415 E8 04            [16]  829 	add	sp, #4
+      000417 18 16            [12]  830 	jr	00182$
+      000419                        831 00178$:
+                                    832 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:221: else if(actionCnt == 10){
+      000419 78               [ 4]  833 	ld	a, b
+      00041A B7               [ 4]  834 	or	a, a
+      00041B 28 12            [12]  835 	jr	Z, 00182$
+                                    836 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:222: set_sprite_data(4,4,HeroDownTile);
+      00041D 11r00r00         [12]  837 	ld	de, #_HeroDownTile
+      000420 D5               [16]  838 	push	de
+      000421 21 04 04         [12]  839 	ld	hl, #0x404
+      000424 E5               [16]  840 	push	hl
+      000425 CDr00r00         [24]  841 	call	_set_sprite_data
+      000428 E8 04            [16]  842 	add	sp, #4
+                                    843 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:223: heroAction = NOACTION;
+      00042A 21r0Ar00         [12]  844 	ld	hl, #_heroAction
+      00042D 36 00            [12]  845 	ld	(hl), #0x00
+      00042F                        846 00182$:
+                                    847 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:225: if(actionCnt == 5 || actionCnt == 10){
+      00042F FAr07r00         [16]  848 	ld	a, (#_actionCnt)
+      000432 D6 05            [ 8]  849 	sub	a, #0x05
+      000434 28 07            [12]  850 	jr	Z, 00191$
+      000436 FAr07r00         [16]  851 	ld	a, (#_actionCnt)
+      000439 D6 0A            [ 8]  852 	sub	a, #0x0a
+      00043B 20 6D            [12]  853 	jr	NZ, 00204$
+      00043D                        854 00191$:
+                                    855 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:127: move_sprite(2,spriteX,spriteY);
+      00043D 21r01r00         [12]  856 	ld	hl, #_spriteX
+      000440 4E               [ 8]  857 	ld	c, (hl)
+                                    858 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:194: spriteY -= 4;
+      000441 FAr02r00         [16]  859 	ld	a, (#_spriteY)
+                                    860 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:228: spriteY += 4;
+      000444 C6 04            [ 8]  861 	add	a, #0x04
+      000446 5F               [ 4]  862 	ld	e, a
+                                    863 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:226: if(bkgY == 112){
+      000447 FAr04r00         [16]  864 	ld	a, (#_bkgY)
+      00044A D6 70            [ 8]  865 	sub	a, #0x70
+      00044C 20 23            [12]  866 	jr	NZ, 00189$
+                                    867 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:227: if(spriteY != 112){
+      00044E FAr02r00         [16]  868 	ld	a, (#_spriteY)
+      000451 D6 70            [ 8]  869 	sub	a, #0x70
+      000453 28 55            [12]  870 	jr	Z, 00204$
+                                    871 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:228: spriteY += 4;
+      000455 21r02r00         [12]  872 	ld	hl, #_spriteY
+      000458 73               [ 8]  873 	ld	(hl), e
+                                    874 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:229: move_sprite(2,spriteX,spriteY);
+                                    875 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                    876 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000459 7E               [ 8]  877 	ld	a, (hl)
+      00045A 21r08r00         [12]  878 	ld	hl, #(_shadow_OAM + 8)
+      00045D 22               [ 8]  879 	ld	(hl+), a
+      00045E 71               [ 8]  880 	ld	(hl), c
+                                    881 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:230: move_sprite(3,spriteX+8,spriteY);
+      00045F 21r02r00         [12]  882 	ld	hl, #_spriteY
+      000462 5E               [ 8]  883 	ld	e, (hl)
+      000463 FAr01r00         [16]  884 	ld	a, (#_spriteX)
+      000466 C6 08            [ 8]  885 	add	a, #0x08
+      000468 4F               [ 4]  886 	ld	c, a
+                                    887 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000469 21r0Cr00         [12]  888 	ld	hl, #(_shadow_OAM + 12)
+                                    889 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00046C 7B               [ 4]  890 	ld	a, e
+      00046D 22               [ 8]  891 	ld	(hl+), a
+      00046E 71               [ 8]  892 	ld	(hl), c
+                                    893 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:230: move_sprite(3,spriteX+8,spriteY);
+      00046F 18 39            [12]  894 	jr	00204$
+      000471                        895 00189$:
+                                    896 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:234: if(spriteY != 72){
+      000471 FAr02r00         [16]  897 	ld	a, (#_spriteY)
+      000474 D6 48            [ 8]  898 	sub	a, #0x48
+      000476 28 1C            [12]  899 	jr	Z, 00186$
+                                    900 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:235: spriteY += 4;
+      000478 21r02r00         [12]  901 	ld	hl, #_spriteY
+      00047B 73               [ 8]  902 	ld	(hl), e
+                                    903 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:236: move_sprite(2,spriteX,spriteY);
+                                    904 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                    905 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00047C 7E               [ 8]  906 	ld	a, (hl)
+      00047D 21r08r00         [12]  907 	ld	hl, #(_shadow_OAM + 8)
+      000480 22               [ 8]  908 	ld	(hl+), a
+      000481 71               [ 8]  909 	ld	(hl), c
+                                    910 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:237: move_sprite(3,spriteX+8,spriteY);
+      000482 21r02r00         [12]  911 	ld	hl, #_spriteY
+      000485 46               [ 8]  912 	ld	b, (hl)
+      000486 FAr01r00         [16]  913 	ld	a, (#_spriteX)
+      000489 C6 08            [ 8]  914 	add	a, #0x08
+      00048B 4F               [ 4]  915 	ld	c, a
+                                    916 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      00048C 21r0Cr00         [12]  917 	ld	hl, #(_shadow_OAM + 12)
+                                    918 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00048F 78               [ 4]  919 	ld	a, b
+      000490 22               [ 8]  920 	ld	(hl+), a
+      000491 71               [ 8]  921 	ld	(hl), c
+                                    922 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:237: move_sprite(3,spriteX+8,spriteY);
+      000492 18 16            [12]  923 	jr	00204$
+      000494                        924 00186$:
+                                    925 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:240: bkgY += 4;
+      000494 21r04r00         [12]  926 	ld	hl, #_bkgY
+      000497 7E               [ 8]  927 	ld	a, (hl)
+      000498 C6 04            [ 8]  928 	add	a, #0x04
+      00049A 77               [ 8]  929 	ld	(hl), a
+                                    930 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:241: move_bkg(bkgX,bkgY);
+      00049B 4E               [ 8]  931 	ld	c, (hl)
+      00049C FAr03r00         [16]  932 	ld	a, (#_bkgX)
+      00049F E0r00            [12]  933 	ldh	(_SCX_REG + 0), a
+                                    934 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1208: SCX_REG=x, SCY_REG=y;
+      0004A1 79               [ 4]  935 	ld	a, c
+      0004A2 E0r00            [12]  936 	ldh	(_SCY_REG + 0), a
+                                    937 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:242: EyePosAdjust(0,-4);
+      0004A4 1E FC            [ 8]  938 	ld	e, #0xfc
+      0004A6 AF               [ 4]  939 	xor	a, a
+      0004A7 CDr00r00         [24]  940 	call	_EyePosAdjust
+      0004AA                        941 00204$:
+                                    942 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:247: actionCnt++;
+      0004AA 21r07r00         [12]  943 	ld	hl, #_actionCnt
+      0004AD 34               [12]  944 	inc	(hl)
+      0004AE                        945 00206$:
+                                    946 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:249: if(swordAction == SWORD){
+      0004AE FAr0Cr00         [16]  947 	ld	a, (#_swordAction)
+      0004B1 3D               [ 4]  948 	dec	a
+      0004B2 C2r90r0C         [16]  949 	jp	NZ,00328$
+                                    950 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:116: else if(actionCnt == 5){
+      0004B5 FAr07r00         [16]  951 	ld	a, (#_actionCnt)
+      0004B8 D6 05            [ 8]  952 	sub	a, #0x05
+      0004BA 3E 01            [ 8]  953 	ld	a, #0x01
+      0004BC 28 01            [12]  954 	jr	Z, 00894$
+      0004BE AF               [ 4]  955 	xor	a, a
+      0004BF                        956 00894$:
+      0004BF F8 00            [12]  957 	ldhl	sp,	#0
+      0004C1 77               [ 8]  958 	ld	(hl), a
+                                    959 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:261: else if(actionCnt == 6){
+      0004C2 FAr07r00         [16]  960 	ld	a, (#_actionCnt)
+      0004C5 D6 06            [ 8]  961 	sub	a, #0x06
+      0004C7 3E 01            [ 8]  962 	ld	a, #0x01
+      0004C9 28 01            [12]  963 	jr	Z, 00896$
+      0004CB AF               [ 4]  964 	xor	a, a
+      0004CC                        965 00896$:
+      0004CC F8 01            [12]  966 	ldhl	sp,	#1
+      0004CE 77               [ 8]  967 	ld	(hl), a
+                                    968 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:266: else if(actionCnt == 11){
+      0004CF FAr07r00         [16]  969 	ld	a, (#_actionCnt)
+      0004D2 D6 0B            [ 8]  970 	sub	a, #0x0b
+      0004D4 3E 01            [ 8]  971 	ld	a, #0x01
+      0004D6 28 01            [12]  972 	jr	Z, 00898$
+      0004D8 AF               [ 4]  973 	xor	a, a
+      0004D9                        974 00898$:
+      0004D9 F8 02            [12]  975 	ldhl	sp,	#2
+      0004DB 77               [ 8]  976 	ld	(hl), a
+                                    977 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:270: else if(actionCnt == 12){
+      0004DC FAr07r00         [16]  978 	ld	a, (#_actionCnt)
+      0004DF D6 0C            [ 8]  979 	sub	a, #0x0c
+      0004E1 3E 01            [ 8]  980 	ld	a, #0x01
+      0004E3 28 01            [12]  981 	jr	Z, 00900$
+      0004E5 AF               [ 4]  982 	xor	a, a
+      0004E6                        983 00900$:
+      0004E6 F8 03            [12]  984 	ldhl	sp,	#3
+      0004E8 77               [ 8]  985 	ld	(hl), a
+                                    986 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:276: else if(actionCnt == 17){
+      0004E9 FAr07r00         [16]  987 	ld	a, (#_actionCnt)
+      0004EC D6 11            [ 8]  988 	sub	a, #0x11
+      0004EE 3E 01            [ 8]  989 	ld	a, #0x01
+      0004F0 28 01            [12]  990 	jr	Z, 00902$
+      0004F2 AF               [ 4]  991 	xor	a, a
+      0004F3                        992 00902$:
+      0004F3 F8 04            [12]  993 	ldhl	sp,	#4
+      0004F5 77               [ 8]  994 	ld	(hl), a
+                                    995 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:280: else if(actionCnt == 18){
+      0004F6 FAr07r00         [16]  996 	ld	a, (#_actionCnt)
+      0004F9 D6 12            [ 8]  997 	sub	a, #0x12
+      0004FB 3E 01            [ 8]  998 	ld	a, #0x01
+      0004FD 28 01            [12]  999 	jr	Z, 00904$
+      0004FF AF               [ 4] 1000 	xor	a, a
+      000500                       1001 00904$:
+      000500 F8 05            [12] 1002 	ldhl	sp,	#5
+      000502 77               [ 8] 1003 	ld	(hl), a
+                                   1004 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:285: else if(actionCnt == 24){
+      000503 FAr07r00         [16] 1005 	ld	a, (#_actionCnt)
+      000506 D6 18            [ 8] 1006 	sub	a, #0x18
+      000508 3E 01            [ 8] 1007 	ld	a, #0x01
+      00050A 28 01            [12] 1008 	jr	Z, 00906$
+      00050C AF               [ 4] 1009 	xor	a, a
+      00050D                       1010 00906$:
+      00050D F8 06            [12] 1011 	ldhl	sp,	#6
+      00050F 77               [ 8] 1012 	ld	(hl), a
+                                   1013 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:250: if(direction == UP){
+      000510 FAr0Br00         [16] 1014 	ld	a, (#_direction)
+      000513 B7               [ 4] 1015 	or	a, a
+      000514 C2r2Cr07         [16] 1016 	jp	NZ, 00325$
+                                   1017 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:251: if(actionCnt == 0){
+      000517 FAr07r00         [16] 1018 	ld	a, (#_actionCnt)
+      00051A B7               [ 4] 1019 	or	a, a
+      00051B 20 51            [12] 1020 	jr	NZ, 00229$
+                                   1021 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:252: set_sprite_data(0,4,SwordRightDownTile);
+      00051D 11r00r00         [12] 1022 	ld	de, #_SwordRightDownTile
+      000520 D5               [16] 1023 	push	de
+      000521 21 00 04         [12] 1024 	ld	hl, #0x400
+      000524 E5               [16] 1025 	push	hl
+      000525 CDr00r00         [24] 1026 	call	_set_sprite_data
+      000528 E8 04            [16] 1027 	add	sp, #4
+                                   1028 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:253: set_sprite_data(4,4,HeroUpAttack1Tile);
+      00052A 11r00r00         [12] 1029 	ld	de, #_HeroUpAttack1Tile
+      00052D D5               [16] 1030 	push	de
+      00052E 21 04 04         [12] 1031 	ld	hl, #0x404
+      000531 E5               [16] 1032 	push	hl
+      000532 CDr00r00         [24] 1033 	call	_set_sprite_data
+      000535 E8 04            [16] 1034 	add	sp, #4
+                                   1035 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:254: move_sprite(0,spriteX+16,spriteY+8);
+      000537 FAr02r00         [16] 1036 	ld	a, (#_spriteY)
+      00053A C6 08            [ 8] 1037 	add	a, #0x08
+      00053C F8 05            [12] 1038 	ldhl	sp,	#5
+      00053E 77               [ 8] 1039 	ld	(hl), a
+      00053F FAr01r00         [16] 1040 	ld	a, (#_spriteX)
+      000542 F8 06            [12] 1041 	ldhl	sp,	#6
+      000544 77               [ 8] 1042 	ld	(hl), a
+      000545 7E               [ 8] 1043 	ld	a, (hl)
+      000546 C6 10            [ 8] 1044 	add	a, #0x10
+                                   1045 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1046 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000548 32               [ 8] 1047 	ld	(hl-), a
+      000549 01r00r00         [12] 1048 	ld	bc, #_shadow_OAM
+      00054C 2A               [ 8] 1049 	ld	a, (hl+)
+      00054D 02               [ 8] 1050 	ld	(bc), a
+      00054E 03               [ 8] 1051 	inc	bc
+      00054F 7E               [ 8] 1052 	ld	a, (hl)
+      000550 02               [ 8] 1053 	ld	(bc), a
+                                   1054 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:255: move_sprite(1,spriteX+24,spriteY+8);
+      000551 FAr02r00         [16] 1055 	ld	a, (#_spriteY)
+      000554 C6 08            [ 8] 1056 	add	a, #0x08
+      000556 F8 05            [12] 1057 	ldhl	sp,	#5
+      000558 77               [ 8] 1058 	ld	(hl), a
+      000559 FAr01r00         [16] 1059 	ld	a, (#_spriteX)
+      00055C F8 06            [12] 1060 	ldhl	sp,	#6
+      00055E 77               [ 8] 1061 	ld	(hl), a
+      00055F 7E               [ 8] 1062 	ld	a, (hl)
+      000560 C6 18            [ 8] 1063 	add	a, #0x18
+                                   1064 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1065 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000562 32               [ 8] 1066 	ld	(hl-), a
+      000563 01r04r00         [12] 1067 	ld	bc, #(_shadow_OAM + 4)
+      000566 2A               [ 8] 1068 	ld	a, (hl+)
+      000567 02               [ 8] 1069 	ld	(bc), a
+      000568 03               [ 8] 1070 	inc	bc
+      000569 7E               [ 8] 1071 	ld	a, (hl)
+      00056A 02               [ 8] 1072 	ld	(bc), a
+                                   1073 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:255: move_sprite(1,spriteX+24,spriteY+8);
+      00056B C3rC9r06         [16] 1074 	jp	00230$
+      00056E                       1075 00229$:
+                                   1076 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:257: else if(actionCnt == 5){
+      00056E F8 00            [12] 1077 	ldhl	sp,	#0
+      000570 7E               [ 8] 1078 	ld	a, (hl)
+      000571 B7               [ 4] 1079 	or	a, a
+      000572 28 17            [12] 1080 	jr	Z, 00226$
+                                   1081 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1082 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000574 21r00r00         [12] 1083 	ld	hl, #_shadow_OAM
+      000577 36 FF            [12] 1084 	ld	(hl), #0xff
+      000579 21r01r00         [12] 1085 	ld	hl, #(_shadow_OAM + 1)
+      00057C 36 FF            [12] 1086 	ld	(hl), #0xff
+                                   1087 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1088 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00057E 21r04r00         [12] 1089 	ld	hl, #(_shadow_OAM + 4)
+      000581 36 FF            [12] 1090 	ld	(hl), #0xff
+      000583 21r05r00         [12] 1091 	ld	hl, #(_shadow_OAM + 5)
+      000586 36 FF            [12] 1092 	ld	(hl), #0xff
+                                   1093 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:259: move_sprite(1,255,255);
+      000588 C3rC9r06         [16] 1094 	jp	00230$
+      00058B                       1095 00226$:
+                                   1096 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:261: else if(actionCnt == 6){
+      00058B F8 01            [12] 1097 	ldhl	sp,	#1
+      00058D 7E               [ 8] 1098 	ld	a, (hl)
+      00058E B7               [ 4] 1099 	or	a, a
+      00058F 28 40            [12] 1100 	jr	Z, 00223$
+                                   1101 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:262: set_sprite_data(0,4,SwordRightTile);
+      000591 11r00r00         [12] 1102 	ld	de, #_SwordRightTile
+      000594 D5               [16] 1103 	push	de
+      000595 21 00 04         [12] 1104 	ld	hl, #0x400
+      000598 E5               [16] 1105 	push	hl
+      000599 CDr00r00         [24] 1106 	call	_set_sprite_data
+      00059C E8 04            [16] 1107 	add	sp, #4
+                                   1108 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:263: move_sprite(0,spriteX+16,spriteY);
+      00059E FAr02r00         [16] 1109 	ld	a, (#_spriteY)
+      0005A1 F8 05            [12] 1110 	ldhl	sp,	#5
+      0005A3 77               [ 8] 1111 	ld	(hl), a
+      0005A4 FAr01r00         [16] 1112 	ld	a, (#_spriteX)
+      0005A7 F8 06            [12] 1113 	ldhl	sp,	#6
+      0005A9 77               [ 8] 1114 	ld	(hl), a
+      0005AA 7E               [ 8] 1115 	ld	a, (hl)
+      0005AB C6 10            [ 8] 1116 	add	a, #0x10
+                                   1117 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1118 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0005AD 32               [ 8] 1119 	ld	(hl-), a
+      0005AE 01r00r00         [12] 1120 	ld	bc, #_shadow_OAM
+      0005B1 2A               [ 8] 1121 	ld	a, (hl+)
+      0005B2 02               [ 8] 1122 	ld	(bc), a
+      0005B3 03               [ 8] 1123 	inc	bc
+      0005B4 7E               [ 8] 1124 	ld	a, (hl)
+      0005B5 02               [ 8] 1125 	ld	(bc), a
+                                   1126 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:264: move_sprite(1,spriteX+24,spriteY);
+      0005B6 FAr02r00         [16] 1127 	ld	a, (#_spriteY)
+      0005B9 F8 05            [12] 1128 	ldhl	sp,	#5
+      0005BB 77               [ 8] 1129 	ld	(hl), a
+      0005BC FAr01r00         [16] 1130 	ld	a, (#_spriteX)
+      0005BF F8 06            [12] 1131 	ldhl	sp,	#6
+      0005C1 77               [ 8] 1132 	ld	(hl), a
+      0005C2 7E               [ 8] 1133 	ld	a, (hl)
+      0005C3 C6 18            [ 8] 1134 	add	a, #0x18
+                                   1135 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1136 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0005C5 32               [ 8] 1137 	ld	(hl-), a
+      0005C6 01r04r00         [12] 1138 	ld	bc, #(_shadow_OAM + 4)
+      0005C9 2A               [ 8] 1139 	ld	a, (hl+)
+      0005CA 02               [ 8] 1140 	ld	(bc), a
+      0005CB 03               [ 8] 1141 	inc	bc
+      0005CC 7E               [ 8] 1142 	ld	a, (hl)
+      0005CD 02               [ 8] 1143 	ld	(bc), a
+                                   1144 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:264: move_sprite(1,spriteX+24,spriteY);
+      0005CE C3rC9r06         [16] 1145 	jp	00230$
+      0005D1                       1146 00223$:
+                                   1147 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:266: else if(actionCnt == 11){
+      0005D1 F8 02            [12] 1148 	ldhl	sp,	#2
+      0005D3 7E               [ 8] 1149 	ld	a, (hl)
+      0005D4 B7               [ 4] 1150 	or	a, a
+      0005D5 28 13            [12] 1151 	jr	Z, 00220$
+                                   1152 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0005D7 21r00r00         [12] 1153 	ld	hl, #_shadow_OAM
+                                   1154 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0005DA 3E FF            [ 8] 1155 	ld	a, #0xff
+      0005DC 22               [ 8] 1156 	ld	(hl+), a
+      0005DD 36 FF            [12] 1157 	ld	(hl), #0xff
+                                   1158 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0005DF 21r04r00         [12] 1159 	ld	hl, #(_shadow_OAM + 4)
+                                   1160 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0005E2 3E FF            [ 8] 1161 	ld	a, #0xff
+      0005E4 22               [ 8] 1162 	ld	(hl+), a
+      0005E5 36 FF            [12] 1163 	ld	(hl), #0xff
+                                   1164 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:268: move_sprite(1,255,255);
+      0005E7 C3rC9r06         [16] 1165 	jp	00230$
+      0005EA                       1166 00220$:
+                                   1167 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:270: else if(actionCnt == 12){
+      0005EA F8 03            [12] 1168 	ldhl	sp,	#3
+      0005EC 7E               [ 8] 1169 	ld	a, (hl)
+      0005ED B7               [ 4] 1170 	or	a, a
+      0005EE 28 51            [12] 1171 	jr	Z, 00217$
+                                   1172 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:271: set_sprite_data(0,4,SwordRightUpTile);
+      0005F0 11r00r00         [12] 1173 	ld	de, #_SwordRightUpTile
+      0005F3 D5               [16] 1174 	push	de
+      0005F4 21 00 04         [12] 1175 	ld	hl, #0x400
+      0005F7 E5               [16] 1176 	push	hl
+      0005F8 CDr00r00         [24] 1177 	call	_set_sprite_data
+      0005FB E8 04            [16] 1178 	add	sp, #4
+                                   1179 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:272: set_sprite_data(4,4,HeroUpAttack2Tile);
+      0005FD 11r00r00         [12] 1180 	ld	de, #_HeroUpAttack2Tile
+      000600 D5               [16] 1181 	push	de
+      000601 21 04 04         [12] 1182 	ld	hl, #0x404
+      000604 E5               [16] 1183 	push	hl
+      000605 CDr00r00         [24] 1184 	call	_set_sprite_data
+      000608 E8 04            [16] 1185 	add	sp, #4
+                                   1186 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:273: move_sprite(0,spriteX+16,spriteY-12);
+      00060A FAr02r00         [16] 1187 	ld	a, (#_spriteY)
+      00060D C6 F4            [ 8] 1188 	add	a, #0xf4
+      00060F F8 05            [12] 1189 	ldhl	sp,	#5
+      000611 77               [ 8] 1190 	ld	(hl), a
+      000612 FAr01r00         [16] 1191 	ld	a, (#_spriteX)
+      000615 F8 06            [12] 1192 	ldhl	sp,	#6
+      000617 77               [ 8] 1193 	ld	(hl), a
+      000618 7E               [ 8] 1194 	ld	a, (hl)
+      000619 C6 10            [ 8] 1195 	add	a, #0x10
+                                   1196 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1197 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00061B 32               [ 8] 1198 	ld	(hl-), a
+      00061C 01r00r00         [12] 1199 	ld	bc, #_shadow_OAM
+      00061F 2A               [ 8] 1200 	ld	a, (hl+)
+      000620 02               [ 8] 1201 	ld	(bc), a
+      000621 03               [ 8] 1202 	inc	bc
+      000622 7E               [ 8] 1203 	ld	a, (hl)
+      000623 02               [ 8] 1204 	ld	(bc), a
+                                   1205 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:274: move_sprite(1,spriteX+24,spriteY-12);
+      000624 FAr02r00         [16] 1206 	ld	a, (#_spriteY)
+      000627 C6 F4            [ 8] 1207 	add	a, #0xf4
+      000629 F8 05            [12] 1208 	ldhl	sp,	#5
+      00062B 77               [ 8] 1209 	ld	(hl), a
+      00062C FAr01r00         [16] 1210 	ld	a, (#_spriteX)
+      00062F F8 06            [12] 1211 	ldhl	sp,	#6
+      000631 77               [ 8] 1212 	ld	(hl), a
+      000632 7E               [ 8] 1213 	ld	a, (hl)
+      000633 C6 18            [ 8] 1214 	add	a, #0x18
+                                   1215 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1216 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000635 32               [ 8] 1217 	ld	(hl-), a
+      000636 01r04r00         [12] 1218 	ld	bc, #(_shadow_OAM + 4)
+      000639 2A               [ 8] 1219 	ld	a, (hl+)
+      00063A 02               [ 8] 1220 	ld	(bc), a
+      00063B 03               [ 8] 1221 	inc	bc
+      00063C 7E               [ 8] 1222 	ld	a, (hl)
+      00063D 02               [ 8] 1223 	ld	(bc), a
+                                   1224 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:274: move_sprite(1,spriteX+24,spriteY-12);
+      00063E C3rC9r06         [16] 1225 	jp	00230$
+      000641                       1226 00217$:
+                                   1227 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:276: else if(actionCnt == 17){
+      000641 F8 04            [12] 1228 	ldhl	sp,	#4
+      000643 7E               [ 8] 1229 	ld	a, (hl)
+      000644 B7               [ 4] 1230 	or	a, a
+      000645 28 12            [12] 1231 	jr	Z, 00214$
+                                   1232 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000647 21r00r00         [12] 1233 	ld	hl, #_shadow_OAM
+                                   1234 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00064A 3E FF            [ 8] 1235 	ld	a, #0xff
+      00064C 22               [ 8] 1236 	ld	(hl+), a
+      00064D 36 FF            [12] 1237 	ld	(hl), #0xff
+                                   1238 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      00064F 21r04r00         [12] 1239 	ld	hl, #(_shadow_OAM + 4)
+                                   1240 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000652 3E FF            [ 8] 1241 	ld	a, #0xff
+      000654 22               [ 8] 1242 	ld	(hl+), a
+      000655 36 FF            [12] 1243 	ld	(hl), #0xff
+                                   1244 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:278: move_sprite(1,255,255);
+      000657 18 70            [12] 1245 	jr	00230$
+      000659                       1246 00214$:
+                                   1247 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:280: else if(actionCnt == 18){
+      000659 F8 05            [12] 1248 	ldhl	sp,	#5
+      00065B 7E               [ 8] 1249 	ld	a, (hl)
+      00065C B7               [ 4] 1250 	or	a, a
+      00065D 28 42            [12] 1251 	jr	Z, 00211$
+                                   1252 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:281: set_sprite_data(0,4,SwordUpTile);
+      00065F 11r00r00         [12] 1253 	ld	de, #_SwordUpTile
+      000662 D5               [16] 1254 	push	de
+      000663 21 00 04         [12] 1255 	ld	hl, #0x400
+      000666 E5               [16] 1256 	push	hl
+      000667 CDr00r00         [24] 1257 	call	_set_sprite_data
+      00066A E8 04            [16] 1258 	add	sp, #4
+                                   1259 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:282: move_sprite(0,spriteX+2,spriteY-16);
+      00066C FAr02r00         [16] 1260 	ld	a, (#_spriteY)
+      00066F C6 F0            [ 8] 1261 	add	a, #0xf0
+      000671 F8 05            [12] 1262 	ldhl	sp,	#5
+      000673 77               [ 8] 1263 	ld	(hl), a
+      000674 FAr01r00         [16] 1264 	ld	a, (#_spriteX)
+      000677 F8 06            [12] 1265 	ldhl	sp,	#6
+      000679 77               [ 8] 1266 	ld	(hl), a
+      00067A 34               [12] 1267 	inc	(hl)
+      00067B 34               [12] 1268 	inc	(hl)
+                                   1269 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1270 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00067C 2B               [ 8] 1271 	dec	hl
+      00067D 01r00r00         [12] 1272 	ld	bc, #_shadow_OAM
+      000680 2A               [ 8] 1273 	ld	a, (hl+)
+      000681 02               [ 8] 1274 	ld	(bc), a
+      000682 03               [ 8] 1275 	inc	bc
+      000683 7E               [ 8] 1276 	ld	a, (hl)
+      000684 02               [ 8] 1277 	ld	(bc), a
+                                   1278 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:283: move_sprite(1,spriteX+10,spriteY-16);
+      000685 FAr02r00         [16] 1279 	ld	a, (#_spriteY)
+      000688 C6 F0            [ 8] 1280 	add	a, #0xf0
+      00068A F8 05            [12] 1281 	ldhl	sp,	#5
+      00068C 77               [ 8] 1282 	ld	(hl), a
+      00068D FAr01r00         [16] 1283 	ld	a, (#_spriteX)
+      000690 F8 06            [12] 1284 	ldhl	sp,	#6
+      000692 77               [ 8] 1285 	ld	(hl), a
+      000693 7E               [ 8] 1286 	ld	a, (hl)
+      000694 C6 0A            [ 8] 1287 	add	a, #0x0a
+                                   1288 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1289 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000696 32               [ 8] 1290 	ld	(hl-), a
+      000697 01r04r00         [12] 1291 	ld	bc, #(_shadow_OAM + 4)
+      00069A 2A               [ 8] 1292 	ld	a, (hl+)
+      00069B 02               [ 8] 1293 	ld	(bc), a
+      00069C 03               [ 8] 1294 	inc	bc
+      00069D 7E               [ 8] 1295 	ld	a, (hl)
+      00069E 02               [ 8] 1296 	ld	(bc), a
+                                   1297 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:283: move_sprite(1,spriteX+10,spriteY-16);
+      00069F 18 28            [12] 1298 	jr	00230$
+      0006A1                       1299 00211$:
+                                   1300 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:285: else if(actionCnt == 24){
+      0006A1 F8 06            [12] 1301 	ldhl	sp,	#6
+      0006A3 7E               [ 8] 1302 	ld	a, (hl)
+      0006A4 B7               [ 4] 1303 	or	a, a
+      0006A5 28 22            [12] 1304 	jr	Z, 00230$
+                                   1305 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:286: set_sprite_data(4,4,HeroUpTile);
+      0006A7 11r00r00         [12] 1306 	ld	de, #_HeroUpTile
+      0006AA D5               [16] 1307 	push	de
+      0006AB 21 04 04         [12] 1308 	ld	hl, #0x404
+      0006AE E5               [16] 1309 	push	hl
+      0006AF CDr00r00         [24] 1310 	call	_set_sprite_data
+      0006B2 E8 04            [16] 1311 	add	sp, #4
+                                   1312 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0006B4 21r00r00         [12] 1313 	ld	hl, #_shadow_OAM
+                                   1314 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0006B7 3E FF            [ 8] 1315 	ld	a, #0xff
+      0006B9 22               [ 8] 1316 	ld	(hl+), a
+      0006BA 36 FF            [12] 1317 	ld	(hl), #0xff
+                                   1318 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0006BC 21r04r00         [12] 1319 	ld	hl, #(_shadow_OAM + 4)
+                                   1320 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0006BF 3E FF            [ 8] 1321 	ld	a, #0xff
+      0006C1 22               [ 8] 1322 	ld	(hl+), a
+      0006C2 36 FF            [12] 1323 	ld	(hl), #0xff
+                                   1324 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:289: swordAction = NOACTION;
+      0006C4 21r0Cr00         [12] 1325 	ld	hl, #_swordAction
+      0006C7 36 00            [12] 1326 	ld	(hl), #0x00
+      0006C9                       1327 00230$:
+                                   1328 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:126: spriteX += 4;
+      0006C9 FAr01r00         [16] 1329 	ld	a, (#_spriteX)
+      0006CC F8 04            [12] 1330 	ldhl	sp,	#4
+      0006CE 77               [ 8] 1331 	ld	(hl), a
+                                   1332 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:194: spriteY -= 4;
+      0006CF FAr02r00         [16] 1333 	ld	a, (#_spriteY)
+      0006D2 F8 06            [12] 1334 	ldhl	sp,	#6
+      0006D4 77               [ 8] 1335 	ld	(hl), a
+                                   1336 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:291: if(actionCnt >= 6 && actionCnt < 12){
+      0006D5 FAr07r00         [16] 1337 	ld	a, (#_actionCnt)
+      0006D8 D6 0C            [ 8] 1338 	sub	a, #0x0c
+      0006DA 3E 00            [ 8] 1339 	ld	a, #0x00
+      0006DC 17               [ 4] 1340 	rla
+      0006DD F8 03            [12] 1341 	ldhl	sp,	#3
+                                   1342 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:292: HitCheck(spriteX+16,spriteY,spriteX+32,spriteY+16);
+      0006DF 22               [ 8] 1343 	ld	(hl+), a
+      0006E0 2A               [ 8] 1344 	ld	a, (hl+)
+      0006E1 C6 20            [ 8] 1345 	add	a, #0x20
+      0006E3 77               [ 8] 1346 	ld	(hl), a
+                                   1347 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:291: if(actionCnt >= 6 && actionCnt < 12){
+      0006E4 FAr07r00         [16] 1348 	ld	a, (#_actionCnt)
+      0006E7 D6 06            [ 8] 1349 	sub	a, #0x06
+      0006E9 38 21            [12] 1350 	jr	C, 00234$
+      0006EB F8 03            [12] 1351 	ldhl	sp,	#3
+      0006ED 7E               [ 8] 1352 	ld	a, (hl)
+      0006EE B7               [ 4] 1353 	or	a, a
+      0006EF 28 1B            [12] 1354 	jr	Z, 00234$
+                                   1355 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:292: HitCheck(spriteX+16,spriteY,spriteX+32,spriteY+16);
+      0006F1 F8 06            [12] 1356 	ldhl	sp,	#6
+      0006F3 7E               [ 8] 1357 	ld	a, (hl)
+      0006F4 C6 10            [ 8] 1358 	add	a, #0x10
+      0006F6 32               [ 8] 1359 	ld	(hl-), a
+      0006F7 2B               [ 8] 1360 	dec	hl
+      0006F8 2A               [ 8] 1361 	ld	a, (hl+)
+      0006F9 23               [ 8] 1362 	inc	hl
+      0006FA C6 10            [ 8] 1363 	add	a, #0x10
+      0006FC 4F               [ 4] 1364 	ld	c, a
+      0006FD 3A               [ 8] 1365 	ld	a, (hl-)
+      0006FE 57               [ 4] 1366 	ld	d, a
+      0006FF 5E               [ 8] 1367 	ld	e, (hl)
+      000700 D5               [16] 1368 	push	de
+      000701 21r02r00         [12] 1369 	ld	hl, #_spriteY
+      000704 5E               [ 8] 1370 	ld	e, (hl)
+      000705 79               [ 4] 1371 	ld	a, c
+      000706 CDr00r00         [24] 1372 	call	_HitCheck
+      000709 C3r8Cr0C         [16] 1373 	jp	00326$
+      00070C                       1374 00234$:
+                                   1375 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:294: else if(actionCnt >= 12){
+      00070C F8 03            [12] 1376 	ldhl	sp,	#3
+      00070E CB 46            [12] 1377 	bit	0, (hl)
+      000710 C2r8Cr0C         [16] 1378 	jp	NZ, 00326$
+                                   1379 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:295: HitCheck(spriteX,spriteY-16,spriteX+32,spriteY);
+      000713 F8 06            [12] 1380 	ldhl	sp,	#6
+      000715 7E               [ 8] 1381 	ld	a, (hl)
+      000716 C6 F0            [ 8] 1382 	add	a, #0xf0
+      000718 5F               [ 4] 1383 	ld	e, a
+      000719 FAr02r00         [16] 1384 	ld	a, (#_spriteY)
+      00071C F5               [16] 1385 	push	af
+      00071D 33               [ 8] 1386 	inc	sp
+      00071E F8 06            [12] 1387 	ldhl	sp,	#6
+      000720 7E               [ 8] 1388 	ld	a, (hl)
+      000721 F5               [16] 1389 	push	af
+      000722 33               [ 8] 1390 	inc	sp
+      000723 FAr01r00         [16] 1391 	ld	a, (#_spriteX)
+      000726 CDr00r00         [24] 1392 	call	_HitCheck
+      000729 C3r8Cr0C         [16] 1393 	jp	00326$
+      00072C                       1394 00325$:
+                                   1395 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:298: else if(direction == RIGHT){
+      00072C FAr0Br00         [16] 1396 	ld	a, (#_direction)
+      00072F 3D               [ 4] 1397 	dec	a
+      000730 C2r15r09         [16] 1398 	jp	NZ,00322$
+                                   1399 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:299: if(actionCnt == 0){
+      000733 FAr07r00         [16] 1400 	ld	a, (#_actionCnt)
+      000736 B7               [ 4] 1401 	or	a, a
+      000737 20 51            [12] 1402 	jr	NZ, 00258$
+                                   1403 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:300: set_sprite_data(0,4,SwordLeftUpTile);
+      000739 11r00r00         [12] 1404 	ld	de, #_SwordLeftUpTile
+      00073C D5               [16] 1405 	push	de
+      00073D 21 00 04         [12] 1406 	ld	hl, #0x400
+      000740 E5               [16] 1407 	push	hl
+      000741 CDr00r00         [24] 1408 	call	_set_sprite_data
+      000744 E8 04            [16] 1409 	add	sp, #4
+                                   1410 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:301: set_sprite_data(4,4,HeroRightAttack1Tile);
+      000746 11r00r00         [12] 1411 	ld	de, #_HeroRightAttack1Tile
+      000749 D5               [16] 1412 	push	de
+      00074A 21 04 04         [12] 1413 	ld	hl, #0x404
+      00074D E5               [16] 1414 	push	hl
+      00074E CDr00r00         [24] 1415 	call	_set_sprite_data
+      000751 E8 04            [16] 1416 	add	sp, #4
+                                   1417 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:302: move_sprite(0,spriteX-14,spriteY-10);
+      000753 FAr02r00         [16] 1418 	ld	a, (#_spriteY)
+      000756 C6 F6            [ 8] 1419 	add	a, #0xf6
+      000758 F8 05            [12] 1420 	ldhl	sp,	#5
+      00075A 77               [ 8] 1421 	ld	(hl), a
+      00075B FAr01r00         [16] 1422 	ld	a, (#_spriteX)
+      00075E F8 06            [12] 1423 	ldhl	sp,	#6
+      000760 77               [ 8] 1424 	ld	(hl), a
+      000761 7E               [ 8] 1425 	ld	a, (hl)
+      000762 C6 F2            [ 8] 1426 	add	a, #0xf2
+                                   1427 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1428 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000764 32               [ 8] 1429 	ld	(hl-), a
+      000765 01r00r00         [12] 1430 	ld	bc, #_shadow_OAM
+      000768 2A               [ 8] 1431 	ld	a, (hl+)
+      000769 02               [ 8] 1432 	ld	(bc), a
+      00076A 03               [ 8] 1433 	inc	bc
+      00076B 7E               [ 8] 1434 	ld	a, (hl)
+      00076C 02               [ 8] 1435 	ld	(bc), a
+                                   1436 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:303: move_sprite(1,spriteX-6,spriteY-10);
+      00076D FAr02r00         [16] 1437 	ld	a, (#_spriteY)
+      000770 C6 F6            [ 8] 1438 	add	a, #0xf6
+      000772 F8 05            [12] 1439 	ldhl	sp,	#5
+      000774 77               [ 8] 1440 	ld	(hl), a
+      000775 FAr01r00         [16] 1441 	ld	a, (#_spriteX)
+      000778 F8 06            [12] 1442 	ldhl	sp,	#6
+      00077A 77               [ 8] 1443 	ld	(hl), a
+      00077B 7E               [ 8] 1444 	ld	a, (hl)
+      00077C C6 FA            [ 8] 1445 	add	a, #0xfa
+                                   1446 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1447 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00077E 32               [ 8] 1448 	ld	(hl-), a
+      00077F 01r04r00         [12] 1449 	ld	bc, #(_shadow_OAM + 4)
+      000782 2A               [ 8] 1450 	ld	a, (hl+)
+      000783 02               [ 8] 1451 	ld	(bc), a
+      000784 03               [ 8] 1452 	inc	bc
+      000785 7E               [ 8] 1453 	ld	a, (hl)
+      000786 02               [ 8] 1454 	ld	(bc), a
+                                   1455 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:303: move_sprite(1,spriteX-6,spriteY-10);
+      000787 C3rE9r08         [16] 1456 	jp	00259$
+      00078A                       1457 00258$:
+                                   1458 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:305: else if(actionCnt == 5){
+      00078A F8 00            [12] 1459 	ldhl	sp,	#0
+      00078C 7E               [ 8] 1460 	ld	a, (hl)
+      00078D B7               [ 4] 1461 	or	a, a
+      00078E 28 13            [12] 1462 	jr	Z, 00255$
+                                   1463 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000790 21r00r00         [12] 1464 	ld	hl, #_shadow_OAM
+                                   1465 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000793 3E FF            [ 8] 1466 	ld	a, #0xff
+      000795 22               [ 8] 1467 	ld	(hl+), a
+      000796 36 FF            [12] 1468 	ld	(hl), #0xff
+                                   1469 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000798 21r04r00         [12] 1470 	ld	hl, #(_shadow_OAM + 4)
+                                   1471 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00079B 3E FF            [ 8] 1472 	ld	a, #0xff
+      00079D 22               [ 8] 1473 	ld	(hl+), a
+      00079E 36 FF            [12] 1474 	ld	(hl), #0xff
+                                   1475 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:307: move_sprite(1,255,255);
+      0007A0 C3rE9r08         [16] 1476 	jp	00259$
+      0007A3                       1477 00255$:
+                                   1478 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:309: else if(actionCnt == 6){
+      0007A3 F8 01            [12] 1479 	ldhl	sp,	#1
+      0007A5 7E               [ 8] 1480 	ld	a, (hl)
+      0007A6 B7               [ 4] 1481 	or	a, a
+      0007A7 28 47            [12] 1482 	jr	Z, 00252$
+                                   1483 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:310: set_sprite_data(0,4,SwordUpTile);
+      0007A9 11r00r00         [12] 1484 	ld	de, #_SwordUpTile
+      0007AC D5               [16] 1485 	push	de
+      0007AD 21 00 04         [12] 1486 	ld	hl, #0x400
+      0007B0 E5               [16] 1487 	push	hl
+      0007B1 CDr00r00         [24] 1488 	call	_set_sprite_data
+      0007B4 E8 04            [16] 1489 	add	sp, #4
+                                   1490 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:311: move_sprite(0,spriteX-4,spriteY-10);
+      0007B6 FAr02r00         [16] 1491 	ld	a, (#_spriteY)
+      0007B9 C6 F6            [ 8] 1492 	add	a, #0xf6
+      0007BB F8 05            [12] 1493 	ldhl	sp,	#5
+      0007BD 77               [ 8] 1494 	ld	(hl), a
+      0007BE FAr01r00         [16] 1495 	ld	a, (#_spriteX)
+      0007C1 F8 06            [12] 1496 	ldhl	sp,	#6
+      0007C3 77               [ 8] 1497 	ld	(hl), a
+      0007C4 7E               [ 8] 1498 	ld	a, (hl)
+      0007C5 C6 FC            [ 8] 1499 	add	a, #0xfc
+                                   1500 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1501 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0007C7 32               [ 8] 1502 	ld	(hl-), a
+      0007C8 01r00r00         [12] 1503 	ld	bc, #_shadow_OAM
+      0007CB 2A               [ 8] 1504 	ld	a, (hl+)
+      0007CC 02               [ 8] 1505 	ld	(bc), a
+      0007CD 03               [ 8] 1506 	inc	bc
+      0007CE 7E               [ 8] 1507 	ld	a, (hl)
+      0007CF 02               [ 8] 1508 	ld	(bc), a
+                                   1509 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:312: move_sprite(1,spriteX+4,spriteY-10);
+      0007D0 FAr02r00         [16] 1510 	ld	a, (#_spriteY)
+      0007D3 C6 F6            [ 8] 1511 	add	a, #0xf6
+      0007D5 F8 05            [12] 1512 	ldhl	sp,	#5
+      0007D7 77               [ 8] 1513 	ld	(hl), a
+      0007D8 FAr01r00         [16] 1514 	ld	a, (#_spriteX)
+      0007DB F8 06            [12] 1515 	ldhl	sp,	#6
+      0007DD 77               [ 8] 1516 	ld	(hl), a
+      0007DE 34               [12] 1517 	inc	(hl)
+      0007DF 34               [12] 1518 	inc	(hl)
+      0007E0 34               [12] 1519 	inc	(hl)
+      0007E1 34               [12] 1520 	inc	(hl)
+                                   1521 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1522 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0007E2 2B               [ 8] 1523 	dec	hl
+      0007E3 11r04r00         [12] 1524 	ld	de, #(_shadow_OAM + 4)
+      0007E6 2A               [ 8] 1525 	ld	a, (hl+)
+      0007E7 12               [ 8] 1526 	ld	(de), a
+      0007E8 11r05r00         [12] 1527 	ld	de, #(_shadow_OAM + 5)
+      0007EB 7E               [ 8] 1528 	ld	a, (hl)
+      0007EC 12               [ 8] 1529 	ld	(de), a
+                                   1530 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:312: move_sprite(1,spriteX+4,spriteY-10);
+      0007ED C3rE9r08         [16] 1531 	jp	00259$
+      0007F0                       1532 00252$:
+                                   1533 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:314: else if(actionCnt == 11){
+      0007F0 F8 02            [12] 1534 	ldhl	sp,	#2
+      0007F2 7E               [ 8] 1535 	ld	a, (hl)
+      0007F3 B7               [ 4] 1536 	or	a, a
+      0007F4 28 13            [12] 1537 	jr	Z, 00249$
+                                   1538 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0007F6 21r00r00         [12] 1539 	ld	hl, #_shadow_OAM
+                                   1540 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0007F9 3E FF            [ 8] 1541 	ld	a, #0xff
+      0007FB 22               [ 8] 1542 	ld	(hl+), a
+      0007FC 36 FF            [12] 1543 	ld	(hl), #0xff
+                                   1544 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0007FE 21r04r00         [12] 1545 	ld	hl, #(_shadow_OAM + 4)
+                                   1546 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000801 3E FF            [ 8] 1547 	ld	a, #0xff
+      000803 22               [ 8] 1548 	ld	(hl+), a
+      000804 36 FF            [12] 1549 	ld	(hl), #0xff
+                                   1550 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:316: move_sprite(1,255,255);
+      000806 C3rE9r08         [16] 1551 	jp	00259$
+      000809                       1552 00249$:
+                                   1553 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:318: else if(actionCnt == 12){
+      000809 F8 03            [12] 1554 	ldhl	sp,	#3
+      00080B 7E               [ 8] 1555 	ld	a, (hl)
+      00080C B7               [ 4] 1556 	or	a, a
+      00080D 28 51            [12] 1557 	jr	Z, 00246$
+                                   1558 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:319: set_sprite_data(0,4,SwordRightUpTile);
+      00080F 11r00r00         [12] 1559 	ld	de, #_SwordRightUpTile
+      000812 D5               [16] 1560 	push	de
+      000813 21 00 04         [12] 1561 	ld	hl, #0x400
+      000816 E5               [16] 1562 	push	hl
+      000817 CDr00r00         [24] 1563 	call	_set_sprite_data
+      00081A E8 04            [16] 1564 	add	sp, #4
+                                   1565 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:320: set_sprite_data(4,4,HeroRightAttack2Tile);
+      00081C 11r00r00         [12] 1566 	ld	de, #_HeroRightAttack2Tile
+      00081F D5               [16] 1567 	push	de
+      000820 21 04 04         [12] 1568 	ld	hl, #0x404
+      000823 E5               [16] 1569 	push	hl
+      000824 CDr00r00         [24] 1570 	call	_set_sprite_data
+      000827 E8 04            [16] 1571 	add	sp, #4
+                                   1572 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:321: move_sprite(0,spriteX+12,spriteY-4);
+      000829 FAr02r00         [16] 1573 	ld	a, (#_spriteY)
+      00082C C6 FC            [ 8] 1574 	add	a, #0xfc
+      00082E F8 05            [12] 1575 	ldhl	sp,	#5
+      000830 77               [ 8] 1576 	ld	(hl), a
+      000831 FAr01r00         [16] 1577 	ld	a, (#_spriteX)
+      000834 F8 06            [12] 1578 	ldhl	sp,	#6
+      000836 77               [ 8] 1579 	ld	(hl), a
+      000837 7E               [ 8] 1580 	ld	a, (hl)
+      000838 C6 0C            [ 8] 1581 	add	a, #0x0c
+                                   1582 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1583 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00083A 32               [ 8] 1584 	ld	(hl-), a
+      00083B 01r00r00         [12] 1585 	ld	bc, #_shadow_OAM
+      00083E 2A               [ 8] 1586 	ld	a, (hl+)
+      00083F 02               [ 8] 1587 	ld	(bc), a
+      000840 03               [ 8] 1588 	inc	bc
+      000841 7E               [ 8] 1589 	ld	a, (hl)
+      000842 02               [ 8] 1590 	ld	(bc), a
+                                   1591 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:322: move_sprite(1,spriteX+20,spriteY-4);
+      000843 FAr02r00         [16] 1592 	ld	a, (#_spriteY)
+      000846 C6 FC            [ 8] 1593 	add	a, #0xfc
+      000848 F8 05            [12] 1594 	ldhl	sp,	#5
+      00084A 77               [ 8] 1595 	ld	(hl), a
+      00084B FAr01r00         [16] 1596 	ld	a, (#_spriteX)
+      00084E F8 06            [12] 1597 	ldhl	sp,	#6
+      000850 77               [ 8] 1598 	ld	(hl), a
+      000851 7E               [ 8] 1599 	ld	a, (hl)
+      000852 C6 14            [ 8] 1600 	add	a, #0x14
+                                   1601 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1602 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000854 32               [ 8] 1603 	ld	(hl-), a
+      000855 01r04r00         [12] 1604 	ld	bc, #(_shadow_OAM + 4)
+      000858 2A               [ 8] 1605 	ld	a, (hl+)
+      000859 02               [ 8] 1606 	ld	(bc), a
+      00085A 03               [ 8] 1607 	inc	bc
+      00085B 7E               [ 8] 1608 	ld	a, (hl)
+      00085C 02               [ 8] 1609 	ld	(bc), a
+                                   1610 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:322: move_sprite(1,spriteX+20,spriteY-4);
+      00085D C3rE9r08         [16] 1611 	jp	00259$
+      000860                       1612 00246$:
+                                   1613 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:324: else if(actionCnt == 17){
+      000860 F8 04            [12] 1614 	ldhl	sp,	#4
+      000862 7E               [ 8] 1615 	ld	a, (hl)
+      000863 B7               [ 4] 1616 	or	a, a
+      000864 28 12            [12] 1617 	jr	Z, 00243$
+                                   1618 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000866 21r00r00         [12] 1619 	ld	hl, #_shadow_OAM
+                                   1620 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000869 3E FF            [ 8] 1621 	ld	a, #0xff
+      00086B 22               [ 8] 1622 	ld	(hl+), a
+      00086C 36 FF            [12] 1623 	ld	(hl), #0xff
+                                   1624 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      00086E 21r04r00         [12] 1625 	ld	hl, #(_shadow_OAM + 4)
+                                   1626 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000871 3E FF            [ 8] 1627 	ld	a, #0xff
+      000873 22               [ 8] 1628 	ld	(hl+), a
+      000874 36 FF            [12] 1629 	ld	(hl), #0xff
+                                   1630 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:326: move_sprite(1,255,255);
+      000876 18 71            [12] 1631 	jr	00259$
+      000878                       1632 00243$:
+                                   1633 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:328: else if(actionCnt == 18){
+      000878 F8 05            [12] 1634 	ldhl	sp,	#5
+      00087A 7E               [ 8] 1635 	ld	a, (hl)
+      00087B B7               [ 4] 1636 	or	a, a
+      00087C 28 43            [12] 1637 	jr	Z, 00240$
+                                   1638 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:329: set_sprite_data(0,4,SwordRightTile);
+      00087E 11r00r00         [12] 1639 	ld	de, #_SwordRightTile
+      000881 D5               [16] 1640 	push	de
+      000882 21 00 04         [12] 1641 	ld	hl, #0x400
+      000885 E5               [16] 1642 	push	hl
+      000886 CDr00r00         [24] 1643 	call	_set_sprite_data
+      000889 E8 04            [16] 1644 	add	sp, #4
+                                   1645 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:330: move_sprite(0,spriteX+12,spriteY+3);
+      00088B FAr02r00         [16] 1646 	ld	a, (#_spriteY)
+      00088E C6 03            [ 8] 1647 	add	a, #0x03
+      000890 F8 05            [12] 1648 	ldhl	sp,	#5
+      000892 77               [ 8] 1649 	ld	(hl), a
+      000893 FAr01r00         [16] 1650 	ld	a, (#_spriteX)
+      000896 F8 06            [12] 1651 	ldhl	sp,	#6
+      000898 77               [ 8] 1652 	ld	(hl), a
+      000899 7E               [ 8] 1653 	ld	a, (hl)
+      00089A C6 0C            [ 8] 1654 	add	a, #0x0c
+                                   1655 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1656 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00089C 32               [ 8] 1657 	ld	(hl-), a
+      00089D 01r00r00         [12] 1658 	ld	bc, #_shadow_OAM
+      0008A0 2A               [ 8] 1659 	ld	a, (hl+)
+      0008A1 02               [ 8] 1660 	ld	(bc), a
+      0008A2 03               [ 8] 1661 	inc	bc
+      0008A3 7E               [ 8] 1662 	ld	a, (hl)
+      0008A4 02               [ 8] 1663 	ld	(bc), a
+                                   1664 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:331: move_sprite(1,spriteX+20,spriteY+3);
+      0008A5 FAr02r00         [16] 1665 	ld	a, (#_spriteY)
+      0008A8 C6 03            [ 8] 1666 	add	a, #0x03
+      0008AA F8 05            [12] 1667 	ldhl	sp,	#5
+      0008AC 77               [ 8] 1668 	ld	(hl), a
+      0008AD FAr01r00         [16] 1669 	ld	a, (#_spriteX)
+      0008B0 F8 06            [12] 1670 	ldhl	sp,	#6
+      0008B2 77               [ 8] 1671 	ld	(hl), a
+      0008B3 7E               [ 8] 1672 	ld	a, (hl)
+      0008B4 C6 14            [ 8] 1673 	add	a, #0x14
+                                   1674 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1675 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0008B6 32               [ 8] 1676 	ld	(hl-), a
+      0008B7 01r04r00         [12] 1677 	ld	bc, #(_shadow_OAM + 4)
+      0008BA 2A               [ 8] 1678 	ld	a, (hl+)
+      0008BB 02               [ 8] 1679 	ld	(bc), a
+      0008BC 03               [ 8] 1680 	inc	bc
+      0008BD 7E               [ 8] 1681 	ld	a, (hl)
+      0008BE 02               [ 8] 1682 	ld	(bc), a
+                                   1683 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:331: move_sprite(1,spriteX+20,spriteY+3);
+      0008BF 18 28            [12] 1684 	jr	00259$
+      0008C1                       1685 00240$:
+                                   1686 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:333: else if(actionCnt == 24){
+      0008C1 F8 06            [12] 1687 	ldhl	sp,	#6
+      0008C3 7E               [ 8] 1688 	ld	a, (hl)
+      0008C4 B7               [ 4] 1689 	or	a, a
+      0008C5 28 22            [12] 1690 	jr	Z, 00259$
+                                   1691 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:334: set_sprite_data(4,4,HeroRightTile);
+      0008C7 11r00r00         [12] 1692 	ld	de, #_HeroRightTile
+      0008CA D5               [16] 1693 	push	de
+      0008CB 21 04 04         [12] 1694 	ld	hl, #0x404
+      0008CE E5               [16] 1695 	push	hl
+      0008CF CDr00r00         [24] 1696 	call	_set_sprite_data
+      0008D2 E8 04            [16] 1697 	add	sp, #4
+                                   1698 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0008D4 21r00r00         [12] 1699 	ld	hl, #_shadow_OAM
+                                   1700 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0008D7 3E FF            [ 8] 1701 	ld	a, #0xff
+      0008D9 22               [ 8] 1702 	ld	(hl+), a
+      0008DA 36 FF            [12] 1703 	ld	(hl), #0xff
+                                   1704 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0008DC 21r04r00         [12] 1705 	ld	hl, #(_shadow_OAM + 4)
+                                   1706 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0008DF 3E FF            [ 8] 1707 	ld	a, #0xff
+      0008E1 22               [ 8] 1708 	ld	(hl+), a
+      0008E2 36 FF            [12] 1709 	ld	(hl), #0xff
+                                   1710 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:337: swordAction = NOACTION;
+      0008E4 21r0Cr00         [12] 1711 	ld	hl, #_swordAction
+      0008E7 36 00            [12] 1712 	ld	(hl), #0x00
+      0008E9                       1713 00259$:
+                                   1714 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:339: if(actionCnt >= 12){
+      0008E9 FAr07r00         [16] 1715 	ld	a, (#_actionCnt)
+      0008EC D6 0C            [ 8] 1716 	sub	a, #0x0c
+      0008EE DAr8Cr0C         [16] 1717 	jp	C, 00326$
+                                   1718 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:340: HitCheck(spriteX+16,spriteY-8,spriteX+32,spriteY+24);
+      0008F1 21r02r00         [12] 1719 	ld	hl, #_spriteY
+      0008F4 5E               [ 8] 1720 	ld	e, (hl)
+      0008F5 7B               [ 4] 1721 	ld	a, e
+      0008F6 C6 18            [ 8] 1722 	add	a, #0x18
+      0008F8 47               [ 4] 1723 	ld	b, a
+      0008F9 21r01r00         [12] 1724 	ld	hl, #_spriteX
+      0008FC 4E               [ 8] 1725 	ld	c, (hl)
+      0008FD 79               [ 4] 1726 	ld	a, c
+      0008FE C6 20            [ 8] 1727 	add	a, #0x20
+      000900 6F               [ 4] 1728 	ld	l, a
+                                   1729 ;	spillPairReg hl
+                                   1730 ;	spillPairReg hl
+      000901 7B               [ 4] 1731 	ld	a, e
+      000902 C6 F8            [ 8] 1732 	add	a, #0xf8
+      000904 5F               [ 4] 1733 	ld	e, a
+      000905 79               [ 4] 1734 	ld	a, c
+      000906 C6 10            [ 8] 1735 	add	a, #0x10
+      000908 4F               [ 4] 1736 	ld	c, a
+      000909 C5               [16] 1737 	push	bc
+      00090A 7D               [ 4] 1738 	ld	a, l
+      00090B 33               [ 8] 1739 	inc	sp
+      00090C F5               [16] 1740 	push	af
+      00090D 33               [ 8] 1741 	inc	sp
+      00090E 79               [ 4] 1742 	ld	a, c
+      00090F CDr00r00         [24] 1743 	call	_HitCheck
+      000912 C3r8Cr0C         [16] 1744 	jp	00326$
+      000915                       1745 00322$:
+                                   1746 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:343: else if(direction == DOWN){
+      000915 FAr0Br00         [16] 1747 	ld	a, (#_direction)
+      000918 D6 02            [ 8] 1748 	sub	a, #0x02
+      00091A C2rEFr0A         [16] 1749 	jp	NZ,00319$
+                                   1750 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:344: if(actionCnt == 0){
+      00091D FAr07r00         [16] 1751 	ld	a, (#_actionCnt)
+      000920 B7               [ 4] 1752 	or	a, a
+      000921 20 51            [12] 1753 	jr	NZ, 00283$
+                                   1754 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:345: set_sprite_data(0,4,SwordLeftUpTile);
+      000923 11r00r00         [12] 1755 	ld	de, #_SwordLeftUpTile
+      000926 D5               [16] 1756 	push	de
+      000927 21 00 04         [12] 1757 	ld	hl, #0x400
+      00092A E5               [16] 1758 	push	hl
+      00092B CDr00r00         [24] 1759 	call	_set_sprite_data
+      00092E E8 04            [16] 1760 	add	sp, #4
+                                   1761 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:346: set_sprite_data(4,4,HeroDownAttack1Tile);
+      000930 11r00r00         [12] 1762 	ld	de, #_HeroDownAttack1Tile
+      000933 D5               [16] 1763 	push	de
+      000934 21 04 04         [12] 1764 	ld	hl, #0x404
+      000937 E5               [16] 1765 	push	hl
+      000938 CDr00r00         [24] 1766 	call	_set_sprite_data
+      00093B E8 04            [16] 1767 	add	sp, #4
+                                   1768 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:347: move_sprite(0,spriteX-16,spriteY-8);
+      00093D FAr02r00         [16] 1769 	ld	a, (#_spriteY)
+      000940 C6 F8            [ 8] 1770 	add	a, #0xf8
+      000942 F8 05            [12] 1771 	ldhl	sp,	#5
+      000944 77               [ 8] 1772 	ld	(hl), a
+      000945 FAr01r00         [16] 1773 	ld	a, (#_spriteX)
+      000948 F8 06            [12] 1774 	ldhl	sp,	#6
+      00094A 77               [ 8] 1775 	ld	(hl), a
+      00094B 7E               [ 8] 1776 	ld	a, (hl)
+      00094C C6 F0            [ 8] 1777 	add	a, #0xf0
+                                   1778 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1779 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00094E 32               [ 8] 1780 	ld	(hl-), a
+      00094F 01r00r00         [12] 1781 	ld	bc, #_shadow_OAM
+      000952 2A               [ 8] 1782 	ld	a, (hl+)
+      000953 02               [ 8] 1783 	ld	(bc), a
+      000954 03               [ 8] 1784 	inc	bc
+      000955 7E               [ 8] 1785 	ld	a, (hl)
+      000956 02               [ 8] 1786 	ld	(bc), a
+                                   1787 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:348: move_sprite(1,spriteX-8,spriteY-8);
+      000957 FAr02r00         [16] 1788 	ld	a, (#_spriteY)
+      00095A C6 F8            [ 8] 1789 	add	a, #0xf8
+      00095C F8 05            [12] 1790 	ldhl	sp,	#5
+      00095E 77               [ 8] 1791 	ld	(hl), a
+      00095F FAr01r00         [16] 1792 	ld	a, (#_spriteX)
+      000962 F8 06            [12] 1793 	ldhl	sp,	#6
+      000964 77               [ 8] 1794 	ld	(hl), a
+      000965 7E               [ 8] 1795 	ld	a, (hl)
+      000966 C6 F8            [ 8] 1796 	add	a, #0xf8
+                                   1797 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1798 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000968 32               [ 8] 1799 	ld	(hl-), a
+      000969 01r04r00         [12] 1800 	ld	bc, #(_shadow_OAM + 4)
+      00096C 2A               [ 8] 1801 	ld	a, (hl+)
+      00096D 02               [ 8] 1802 	ld	(bc), a
+      00096E 03               [ 8] 1803 	inc	bc
+      00096F 7E               [ 8] 1804 	ld	a, (hl)
+      000970 02               [ 8] 1805 	ld	(bc), a
+                                   1806 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:348: move_sprite(1,spriteX-8,spriteY-8);
+      000971 C3r9Br0A         [16] 1807 	jp	00284$
+      000974                       1808 00283$:
+                                   1809 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:350: else if(actionCnt == 5){
+      000974 F8 00            [12] 1810 	ldhl	sp,	#0
+      000976 7E               [ 8] 1811 	ld	a, (hl)
+      000977 B7               [ 4] 1812 	or	a, a
+      000978 28 13            [12] 1813 	jr	Z, 00280$
+                                   1814 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      00097A 21r00r00         [12] 1815 	ld	hl, #_shadow_OAM
+                                   1816 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      00097D 3E FF            [ 8] 1817 	ld	a, #0xff
+      00097F 22               [ 8] 1818 	ld	(hl+), a
+      000980 36 FF            [12] 1819 	ld	(hl), #0xff
+                                   1820 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000982 21r04r00         [12] 1821 	ld	hl, #(_shadow_OAM + 4)
+                                   1822 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000985 3E FF            [ 8] 1823 	ld	a, #0xff
+      000987 22               [ 8] 1824 	ld	(hl+), a
+      000988 36 FF            [12] 1825 	ld	(hl), #0xff
+                                   1826 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:352: move_sprite(1,255,255);
+      00098A C3r9Br0A         [16] 1827 	jp	00284$
+      00098D                       1828 00280$:
+                                   1829 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:354: else if(actionCnt == 6){
+      00098D F8 01            [12] 1830 	ldhl	sp,	#1
+      00098F 7E               [ 8] 1831 	ld	a, (hl)
+      000990 B7               [ 4] 1832 	or	a, a
+      000991 28 30            [12] 1833 	jr	Z, 00277$
+                                   1834 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:355: set_sprite_data(0,4,SwordLeftTile);
+      000993 11r00r00         [12] 1835 	ld	de, #_SwordLeftTile
+      000996 D5               [16] 1836 	push	de
+      000997 21 00 04         [12] 1837 	ld	hl, #0x400
+      00099A E5               [16] 1838 	push	hl
+      00099B CDr00r00         [24] 1839 	call	_set_sprite_data
+      00099E E8 04            [16] 1840 	add	sp, #4
+                                   1841 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:356: move_sprite(0,spriteX-16,spriteY);
+      0009A0 21r02r00         [12] 1842 	ld	hl, #_spriteY
+      0009A3 46               [ 8] 1843 	ld	b, (hl)
+      0009A4 FAr01r00         [16] 1844 	ld	a, (#_spriteX)
+      0009A7 C6 F0            [ 8] 1845 	add	a, #0xf0
+      0009A9 4F               [ 4] 1846 	ld	c, a
+                                   1847 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0009AA 21r00r00         [12] 1848 	ld	hl, #_shadow_OAM
+                                   1849 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0009AD 78               [ 4] 1850 	ld	a, b
+      0009AE 22               [ 8] 1851 	ld	(hl+), a
+      0009AF 71               [ 8] 1852 	ld	(hl), c
+                                   1853 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:357: move_sprite(1,spriteX-8,spriteY);
+      0009B0 21r02r00         [12] 1854 	ld	hl, #_spriteY
+      0009B3 46               [ 8] 1855 	ld	b, (hl)
+      0009B4 FAr01r00         [16] 1856 	ld	a, (#_spriteX)
+      0009B7 C6 F8            [ 8] 1857 	add	a, #0xf8
+      0009B9 4F               [ 4] 1858 	ld	c, a
+                                   1859 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0009BA 21r04r00         [12] 1860 	ld	hl, #(_shadow_OAM + 4)
+                                   1861 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0009BD 78               [ 4] 1862 	ld	a, b
+      0009BE 22               [ 8] 1863 	ld	(hl+), a
+      0009BF 71               [ 8] 1864 	ld	(hl), c
+                                   1865 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:357: move_sprite(1,spriteX-8,spriteY);
+      0009C0 C3r9Br0A         [16] 1866 	jp	00284$
+      0009C3                       1867 00277$:
+                                   1868 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:359: else if(actionCnt == 11){
+      0009C3 F8 02            [12] 1869 	ldhl	sp,	#2
+      0009C5 7E               [ 8] 1870 	ld	a, (hl)
+      0009C6 B7               [ 4] 1871 	or	a, a
+      0009C7 28 13            [12] 1872 	jr	Z, 00274$
+                                   1873 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0009C9 21r00r00         [12] 1874 	ld	hl, #_shadow_OAM
+                                   1875 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0009CC 3E FF            [ 8] 1876 	ld	a, #0xff
+      0009CE 22               [ 8] 1877 	ld	(hl+), a
+      0009CF 36 FF            [12] 1878 	ld	(hl), #0xff
+                                   1879 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      0009D1 21r04r00         [12] 1880 	ld	hl, #(_shadow_OAM + 4)
+                                   1881 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      0009D4 3E FF            [ 8] 1882 	ld	a, #0xff
+      0009D6 22               [ 8] 1883 	ld	(hl+), a
+      0009D7 36 FF            [12] 1884 	ld	(hl), #0xff
+                                   1885 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:361: move_sprite(1,255,255);
+      0009D9 C3r9Br0A         [16] 1886 	jp	00284$
+      0009DC                       1887 00274$:
+                                   1888 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:363: else if(actionCnt == 12){
+      0009DC F8 03            [12] 1889 	ldhl	sp,	#3
+      0009DE 7E               [ 8] 1890 	ld	a, (hl)
+      0009DF B7               [ 4] 1891 	or	a, a
+      0009E0 28 40            [12] 1892 	jr	Z, 00271$
+                                   1893 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:364: set_sprite_data(0,4,SwordLeftDownTile);
+      0009E2 11r00r00         [12] 1894 	ld	de, #_SwordLeftDownTile
+      0009E5 D5               [16] 1895 	push	de
+      0009E6 21 00 04         [12] 1896 	ld	hl, #0x400
+      0009E9 E5               [16] 1897 	push	hl
+      0009EA CDr00r00         [24] 1898 	call	_set_sprite_data
+      0009ED E8 04            [16] 1899 	add	sp, #4
+                                   1900 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:365: set_sprite_data(4,4,HeroDownAttack2Tile);
+      0009EF 11r00r00         [12] 1901 	ld	de, #_HeroDownAttack2Tile
+      0009F2 D5               [16] 1902 	push	de
+      0009F3 21 04 04         [12] 1903 	ld	hl, #0x404
+      0009F6 E5               [16] 1904 	push	hl
+      0009F7 CDr00r00         [24] 1905 	call	_set_sprite_data
+      0009FA E8 04            [16] 1906 	add	sp, #4
+                                   1907 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:366: move_sprite(0,spriteX-16,spriteY+12);
+      0009FC FAr02r00         [16] 1908 	ld	a, (#_spriteY)
+      0009FF C6 0C            [ 8] 1909 	add	a, #0x0c
+      000A01 47               [ 4] 1910 	ld	b, a
+      000A02 FAr01r00         [16] 1911 	ld	a, (#_spriteX)
+      000A05 C6 F0            [ 8] 1912 	add	a, #0xf0
+      000A07 4F               [ 4] 1913 	ld	c, a
+                                   1914 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A08 21r00r00         [12] 1915 	ld	hl, #_shadow_OAM
+                                   1916 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A0B 78               [ 4] 1917 	ld	a, b
+      000A0C 22               [ 8] 1918 	ld	(hl+), a
+      000A0D 71               [ 8] 1919 	ld	(hl), c
+                                   1920 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:367: move_sprite(1,spriteX-8,spriteY+12);
+      000A0E FAr02r00         [16] 1921 	ld	a, (#_spriteY)
+      000A11 C6 0C            [ 8] 1922 	add	a, #0x0c
+      000A13 47               [ 4] 1923 	ld	b, a
+      000A14 FAr01r00         [16] 1924 	ld	a, (#_spriteX)
+      000A17 C6 F8            [ 8] 1925 	add	a, #0xf8
+      000A19 4F               [ 4] 1926 	ld	c, a
+                                   1927 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A1A 21r04r00         [12] 1928 	ld	hl, #(_shadow_OAM + 4)
+                                   1929 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A1D 78               [ 4] 1930 	ld	a, b
+      000A1E 22               [ 8] 1931 	ld	(hl+), a
+      000A1F 71               [ 8] 1932 	ld	(hl), c
+                                   1933 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:367: move_sprite(1,spriteX-8,spriteY+12);
+      000A20 18 79            [12] 1934 	jr	00284$
+      000A22                       1935 00271$:
+                                   1936 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:369: else if(actionCnt == 17){
+      000A22 F8 04            [12] 1937 	ldhl	sp,	#4
+      000A24 7E               [ 8] 1938 	ld	a, (hl)
+      000A25 B7               [ 4] 1939 	or	a, a
+      000A26 28 12            [12] 1940 	jr	Z, 00268$
+                                   1941 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A28 21r00r00         [12] 1942 	ld	hl, #_shadow_OAM
+                                   1943 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A2B 3E FF            [ 8] 1944 	ld	a, #0xff
+      000A2D 22               [ 8] 1945 	ld	(hl+), a
+      000A2E 36 FF            [12] 1946 	ld	(hl), #0xff
+                                   1947 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A30 21r04r00         [12] 1948 	ld	hl, #(_shadow_OAM + 4)
+                                   1949 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A33 3E FF            [ 8] 1950 	ld	a, #0xff
+      000A35 22               [ 8] 1951 	ld	(hl+), a
+      000A36 36 FF            [12] 1952 	ld	(hl), #0xff
+                                   1953 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:371: move_sprite(1,255,255);
+      000A38 18 61            [12] 1954 	jr	00284$
+      000A3A                       1955 00268$:
+                                   1956 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:373: else if(actionCnt == 18){
+      000A3A F8 05            [12] 1957 	ldhl	sp,	#5
+      000A3C 7E               [ 8] 1958 	ld	a, (hl)
+      000A3D B7               [ 4] 1959 	or	a, a
+      000A3E 28 33            [12] 1960 	jr	Z, 00265$
+                                   1961 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:374: set_sprite_data(0,4,SwordDownTile);
+      000A40 11r00r00         [12] 1962 	ld	de, #_SwordDownTile
+      000A43 D5               [16] 1963 	push	de
+      000A44 21 00 04         [12] 1964 	ld	hl, #0x400
+      000A47 E5               [16] 1965 	push	hl
+      000A48 CDr00r00         [24] 1966 	call	_set_sprite_data
+      000A4B E8 04            [16] 1967 	add	sp, #4
+                                   1968 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:375: move_sprite(0,spriteX-2,spriteY+16);
+      000A4D FAr02r00         [16] 1969 	ld	a, (#_spriteY)
+      000A50 C6 10            [ 8] 1970 	add	a, #0x10
+      000A52 47               [ 4] 1971 	ld	b, a
+      000A53 21r01r00         [12] 1972 	ld	hl, #_spriteX
+      000A56 4E               [ 8] 1973 	ld	c, (hl)
+      000A57 0D               [ 4] 1974 	dec	c
+      000A58 0D               [ 4] 1975 	dec	c
+                                   1976 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A59 21r00r00         [12] 1977 	ld	hl, #_shadow_OAM
+                                   1978 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A5C 78               [ 4] 1979 	ld	a, b
+      000A5D 22               [ 8] 1980 	ld	(hl+), a
+      000A5E 71               [ 8] 1981 	ld	(hl), c
+                                   1982 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:376: move_sprite(1,spriteX+6,spriteY+16);
+      000A5F FAr02r00         [16] 1983 	ld	a, (#_spriteY)
+      000A62 C6 10            [ 8] 1984 	add	a, #0x10
+      000A64 47               [ 4] 1985 	ld	b, a
+      000A65 FAr01r00         [16] 1986 	ld	a, (#_spriteX)
+      000A68 C6 06            [ 8] 1987 	add	a, #0x06
+      000A6A 4F               [ 4] 1988 	ld	c, a
+                                   1989 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A6B 21r04r00         [12] 1990 	ld	hl, #(_shadow_OAM + 4)
+                                   1991 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A6E 78               [ 4] 1992 	ld	a, b
+      000A6F 22               [ 8] 1993 	ld	(hl+), a
+      000A70 71               [ 8] 1994 	ld	(hl), c
+                                   1995 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:376: move_sprite(1,spriteX+6,spriteY+16);
+      000A71 18 28            [12] 1996 	jr	00284$
+      000A73                       1997 00265$:
+                                   1998 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:378: else if(actionCnt == 24){
+      000A73 F8 06            [12] 1999 	ldhl	sp,	#6
+      000A75 7E               [ 8] 2000 	ld	a, (hl)
+      000A76 B7               [ 4] 2001 	or	a, a
+      000A77 28 22            [12] 2002 	jr	Z, 00284$
+                                   2003 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:379: set_sprite_data(4,4,HeroDownTile);
+      000A79 11r00r00         [12] 2004 	ld	de, #_HeroDownTile
+      000A7C D5               [16] 2005 	push	de
+      000A7D 21 04 04         [12] 2006 	ld	hl, #0x404
+      000A80 E5               [16] 2007 	push	hl
+      000A81 CDr00r00         [24] 2008 	call	_set_sprite_data
+      000A84 E8 04            [16] 2009 	add	sp, #4
+                                   2010 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A86 21r00r00         [12] 2011 	ld	hl, #_shadow_OAM
+                                   2012 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A89 3E FF            [ 8] 2013 	ld	a, #0xff
+      000A8B 22               [ 8] 2014 	ld	(hl+), a
+      000A8C 36 FF            [12] 2015 	ld	(hl), #0xff
+                                   2016 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000A8E 21r04r00         [12] 2017 	ld	hl, #(_shadow_OAM + 4)
+                                   2018 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000A91 3E FF            [ 8] 2019 	ld	a, #0xff
+      000A93 22               [ 8] 2020 	ld	(hl+), a
+      000A94 36 FF            [12] 2021 	ld	(hl), #0xff
+                                   2022 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:382: swordAction = NOACTION;
+      000A96 21r0Cr00         [12] 2023 	ld	hl, #_swordAction
+      000A99 36 00            [12] 2024 	ld	(hl), #0x00
+      000A9B                       2025 00284$:
+                                   2026 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:126: spriteX += 4;
+      000A9B 21r01r00         [12] 2027 	ld	hl, #_spriteX
+      000A9E 4E               [ 8] 2028 	ld	c, (hl)
+                                   2029 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:194: spriteY -= 4;
+      000A9F 21r02r00         [12] 2030 	ld	hl, #_spriteY
+      000AA2 5E               [ 8] 2031 	ld	e, (hl)
+                                   2032 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:291: if(actionCnt >= 6 && actionCnt < 12){
+      000AA3 FAr07r00         [16] 2033 	ld	a, (#_actionCnt)
+      000AA6 D6 0C            [ 8] 2034 	sub	a, #0x0c
+      000AA8 3E 00            [ 8] 2035 	ld	a, #0x00
+      000AAA 17               [ 4] 2036 	rla
+      000AAB 57               [ 4] 2037 	ld	d, a
+                                   2038 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:292: HitCheck(spriteX+16,spriteY,spriteX+32,spriteY+16);
+      000AAC 7B               [ 4] 2039 	ld	a, e
+      000AAD C6 10            [ 8] 2040 	add	a, #0x10
+      000AAF 47               [ 4] 2041 	ld	b, a
+                                   2042 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:385: HitCheck(spriteX-16,spriteY,spriteX,spriteY+16);
+      000AB0 79               [ 4] 2043 	ld	a, c
+      000AB1 C6 F0            [ 8] 2044 	add	a, #0xf0
+      000AB3 F8 06            [12] 2045 	ldhl	sp,	#6
+      000AB5 77               [ 8] 2046 	ld	(hl), a
+                                   2047 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:384: if(actionCnt >= 6 && actionCnt < 12){
+      000AB6 FAr07r00         [16] 2048 	ld	a, (#_actionCnt)
+      000AB9 D6 06            [ 8] 2049 	sub	a, #0x06
+      000ABB 38 18            [12] 2050 	jr	C, 00288$
+      000ABD 7A               [ 4] 2051 	ld	a, d
+      000ABE B7               [ 4] 2052 	or	a, a
+      000ABF 28 14            [12] 2053 	jr	Z, 00288$
+                                   2054 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:385: HitCheck(spriteX-16,spriteY,spriteX,spriteY+16);
+      000AC1 C5               [16] 2055 	push	bc
+      000AC2 33               [ 8] 2056 	inc	sp
+      000AC3 FAr01r00         [16] 2057 	ld	a, (#_spriteX)
+      000AC6 F5               [16] 2058 	push	af
+      000AC7 33               [ 8] 2059 	inc	sp
+      000AC8 21r02r00         [12] 2060 	ld	hl, #_spriteY
+      000ACB 5E               [ 8] 2061 	ld	e, (hl)
+      000ACC F8 08            [12] 2062 	ldhl	sp,	#8
+      000ACE 7E               [ 8] 2063 	ld	a, (hl)
+      000ACF CDr00r00         [24] 2064 	call	_HitCheck
+      000AD2 C3r8Cr0C         [16] 2065 	jp	00326$
+      000AD5                       2066 00288$:
+                                   2067 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:387: else if(actionCnt >= 12){
+      000AD5 CB 42            [ 8] 2068 	bit	0, d
+      000AD7 C2r8Cr0C         [16] 2069 	jp	NZ, 00326$
+                                   2070 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:388: HitCheck(spriteX-16,spriteY+16,spriteX+8,spriteY+32);
+      000ADA 7B               [ 4] 2071 	ld	a, e
+      000ADB C6 20            [ 8] 2072 	add	a, #0x20
+      000ADD 57               [ 4] 2073 	ld	d, a
+      000ADE 79               [ 4] 2074 	ld	a, c
+      000ADF C6 08            [ 8] 2075 	add	a, #0x08
+      000AE1 D5               [16] 2076 	push	de
+      000AE2 33               [ 8] 2077 	inc	sp
+      000AE3 F5               [16] 2078 	push	af
+      000AE4 33               [ 8] 2079 	inc	sp
+      000AE5 58               [ 4] 2080 	ld	e, b
+      000AE6 F8 08            [12] 2081 	ldhl	sp,	#8
+      000AE8 7E               [ 8] 2082 	ld	a, (hl)
+      000AE9 CDr00r00         [24] 2083 	call	_HitCheck
+      000AEC C3r8Cr0C         [16] 2084 	jp	00326$
+      000AEF                       2085 00319$:
+                                   2086 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:391: else if(direction == LEFT){
+      000AEF FAr0Br00         [16] 2087 	ld	a, (#_direction)
+      000AF2 D6 03            [ 8] 2088 	sub	a, #0x03
+      000AF4 C2r8Cr0C         [16] 2089 	jp	NZ,00326$
+                                   2090 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:392: if(actionCnt == 0){
+      000AF7 FAr07r00         [16] 2091 	ld	a, (#_actionCnt)
+      000AFA B7               [ 4] 2092 	or	a, a
+      000AFB 20 41            [12] 2093 	jr	NZ, 00312$
+                                   2094 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:393: set_sprite_data(0,4,SwordRightUpTile);
+      000AFD 11r00r00         [12] 2095 	ld	de, #_SwordRightUpTile
+      000B00 D5               [16] 2096 	push	de
+      000B01 21 00 04         [12] 2097 	ld	hl, #0x400
+      000B04 E5               [16] 2098 	push	hl
+      000B05 CDr00r00         [24] 2099 	call	_set_sprite_data
+      000B08 E8 04            [16] 2100 	add	sp, #4
+                                   2101 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:394: set_sprite_data(4,4,HeroLeftAttack1Tile);
+      000B0A 11r00r00         [12] 2102 	ld	de, #_HeroLeftAttack1Tile
+      000B0D D5               [16] 2103 	push	de
+      000B0E 21 04 04         [12] 2104 	ld	hl, #0x404
+      000B11 E5               [16] 2105 	push	hl
+      000B12 CDr00r00         [24] 2106 	call	_set_sprite_data
+      000B15 E8 04            [16] 2107 	add	sp, #4
+                                   2108 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:395: move_sprite(0,spriteX+14,spriteY-10);
+      000B17 FAr02r00         [16] 2109 	ld	a, (#_spriteY)
+      000B1A C6 F6            [ 8] 2110 	add	a, #0xf6
+      000B1C 47               [ 4] 2111 	ld	b, a
+      000B1D FAr01r00         [16] 2112 	ld	a, (#_spriteX)
+      000B20 C6 0E            [ 8] 2113 	add	a, #0x0e
+      000B22 4F               [ 4] 2114 	ld	c, a
+                                   2115 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B23 21r00r00         [12] 2116 	ld	hl, #_shadow_OAM
+                                   2117 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000B26 78               [ 4] 2118 	ld	a, b
+      000B27 22               [ 8] 2119 	ld	(hl+), a
+      000B28 71               [ 8] 2120 	ld	(hl), c
+                                   2121 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:396: move_sprite(1,spriteX+22,spriteY-10);
+      000B29 FAr02r00         [16] 2122 	ld	a, (#_spriteY)
+      000B2C C6 F6            [ 8] 2123 	add	a, #0xf6
+      000B2E 47               [ 4] 2124 	ld	b, a
+      000B2F FAr01r00         [16] 2125 	ld	a, (#_spriteX)
+      000B32 C6 16            [ 8] 2126 	add	a, #0x16
+      000B34 4F               [ 4] 2127 	ld	c, a
+                                   2128 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B35 21r04r00         [12] 2129 	ld	hl, #(_shadow_OAM + 4)
+                                   2130 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000B38 78               [ 4] 2131 	ld	a, b
+      000B39 22               [ 8] 2132 	ld	(hl+), a
+      000B3A 71               [ 8] 2133 	ld	(hl), c
+                                   2134 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:396: move_sprite(1,spriteX+22,spriteY-10);
+      000B3B C3r69r0C         [16] 2135 	jp	00313$
+      000B3E                       2136 00312$:
+                                   2137 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:398: else if(actionCnt == 5){
+      000B3E F8 00            [12] 2138 	ldhl	sp,	#0
+      000B40 7E               [ 8] 2139 	ld	a, (hl)
+      000B41 B7               [ 4] 2140 	or	a, a
+      000B42 28 13            [12] 2141 	jr	Z, 00309$
+                                   2142 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B44 21r00r00         [12] 2143 	ld	hl, #_shadow_OAM
+                                   2144 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000B47 3E FF            [ 8] 2145 	ld	a, #0xff
+      000B49 22               [ 8] 2146 	ld	(hl+), a
+      000B4A 36 FF            [12] 2147 	ld	(hl), #0xff
+                                   2148 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B4C 21r04r00         [12] 2149 	ld	hl, #(_shadow_OAM + 4)
+                                   2150 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000B4F 3E FF            [ 8] 2151 	ld	a, #0xff
+      000B51 22               [ 8] 2152 	ld	(hl+), a
+      000B52 36 FF            [12] 2153 	ld	(hl), #0xff
+                                   2154 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:400: move_sprite(1,255,255);
+      000B54 C3r69r0C         [16] 2155 	jp	00313$
+      000B57                       2156 00309$:
+                                   2157 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:402: else if(actionCnt == 6){
+      000B57 F8 01            [12] 2158 	ldhl	sp,	#1
+      000B59 7E               [ 8] 2159 	ld	a, (hl)
+      000B5A B7               [ 4] 2160 	or	a, a
+      000B5B 28 34            [12] 2161 	jr	Z, 00306$
+                                   2162 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:403: set_sprite_data(0,4,SwordUpTile);
+      000B5D 11r00r00         [12] 2163 	ld	de, #_SwordUpTile
+      000B60 D5               [16] 2164 	push	de
+      000B61 21 00 04         [12] 2165 	ld	hl, #0x400
+      000B64 E5               [16] 2166 	push	hl
+      000B65 CDr00r00         [24] 2167 	call	_set_sprite_data
+      000B68 E8 04            [16] 2168 	add	sp, #4
+                                   2169 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:404: move_sprite(0,spriteX+4,spriteY-10);
+      000B6A FAr02r00         [16] 2170 	ld	a, (#_spriteY)
+      000B6D C6 F6            [ 8] 2171 	add	a, #0xf6
+      000B6F 4F               [ 4] 2172 	ld	c, a
+      000B70 FAr01r00         [16] 2173 	ld	a, (#_spriteX)
+      000B73 C6 04            [ 8] 2174 	add	a, #0x04
+      000B75 47               [ 4] 2175 	ld	b, a
+                                   2176 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B76 21r00r00         [12] 2177 	ld	hl, #_shadow_OAM
+                                   2178 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000B79 79               [ 4] 2179 	ld	a, c
+      000B7A 22               [ 8] 2180 	ld	(hl+), a
+      000B7B 70               [ 8] 2181 	ld	(hl), b
+                                   2182 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:405: move_sprite(1,spriteX+12,spriteY-10);
+      000B7C FAr02r00         [16] 2183 	ld	a, (#_spriteY)
+      000B7F C6 F6            [ 8] 2184 	add	a, #0xf6
+      000B81 4F               [ 4] 2185 	ld	c, a
+      000B82 FAr01r00         [16] 2186 	ld	a, (#_spriteX)
+      000B85 C6 0C            [ 8] 2187 	add	a, #0x0c
+      000B87 47               [ 4] 2188 	ld	b, a
+                                   2189 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B88 21r04r00         [12] 2190 	ld	hl, #(_shadow_OAM + 4)
+                                   2191 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000B8B 79               [ 4] 2192 	ld	a, c
+      000B8C 22               [ 8] 2193 	ld	(hl+), a
+      000B8D 70               [ 8] 2194 	ld	(hl), b
+                                   2195 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:405: move_sprite(1,spriteX+12,spriteY-10);
+      000B8E C3r69r0C         [16] 2196 	jp	00313$
+      000B91                       2197 00306$:
+                                   2198 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:407: else if(actionCnt == 11){
+      000B91 F8 02            [12] 2199 	ldhl	sp,	#2
+      000B93 7E               [ 8] 2200 	ld	a, (hl)
+      000B94 B7               [ 4] 2201 	or	a, a
+      000B95 28 13            [12] 2202 	jr	Z, 00303$
+                                   2203 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B97 21r00r00         [12] 2204 	ld	hl, #_shadow_OAM
+                                   2205 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000B9A 3E FF            [ 8] 2206 	ld	a, #0xff
+      000B9C 22               [ 8] 2207 	ld	(hl+), a
+      000B9D 36 FF            [12] 2208 	ld	(hl), #0xff
+                                   2209 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000B9F 21r04r00         [12] 2210 	ld	hl, #(_shadow_OAM + 4)
+                                   2211 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000BA2 3E FF            [ 8] 2212 	ld	a, #0xff
+      000BA4 22               [ 8] 2213 	ld	(hl+), a
+      000BA5 36 FF            [12] 2214 	ld	(hl), #0xff
+                                   2215 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:409: move_sprite(1,255,255);
+      000BA7 C3r69r0C         [16] 2216 	jp	00313$
+      000BAA                       2217 00303$:
+                                   2218 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:411: else if(actionCnt == 12){
+      000BAA F8 03            [12] 2219 	ldhl	sp,	#3
+      000BAC 7E               [ 8] 2220 	ld	a, (hl)
+      000BAD B7               [ 4] 2221 	or	a, a
+      000BAE 28 40            [12] 2222 	jr	Z, 00300$
+                                   2223 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:412: set_sprite_data(0,4,SwordLeftUpTile);
+      000BB0 11r00r00         [12] 2224 	ld	de, #_SwordLeftUpTile
+      000BB3 D5               [16] 2225 	push	de
+      000BB4 21 00 04         [12] 2226 	ld	hl, #0x400
+      000BB7 E5               [16] 2227 	push	hl
+      000BB8 CDr00r00         [24] 2228 	call	_set_sprite_data
+      000BBB E8 04            [16] 2229 	add	sp, #4
+                                   2230 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:413: set_sprite_data(4,4,HeroLeftAttack2Tile);
+      000BBD 11r00r00         [12] 2231 	ld	de, #_HeroLeftAttack2Tile
+      000BC0 D5               [16] 2232 	push	de
+      000BC1 21 04 04         [12] 2233 	ld	hl, #0x404
+      000BC4 E5               [16] 2234 	push	hl
+      000BC5 CDr00r00         [24] 2235 	call	_set_sprite_data
+      000BC8 E8 04            [16] 2236 	add	sp, #4
+                                   2237 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:414: move_sprite(0,spriteX-12,spriteY-4);
+      000BCA FAr02r00         [16] 2238 	ld	a, (#_spriteY)
+      000BCD C6 FC            [ 8] 2239 	add	a, #0xfc
+      000BCF 4F               [ 4] 2240 	ld	c, a
+      000BD0 FAr01r00         [16] 2241 	ld	a, (#_spriteX)
+      000BD3 C6 F4            [ 8] 2242 	add	a, #0xf4
+      000BD5 47               [ 4] 2243 	ld	b, a
+                                   2244 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000BD6 21r00r00         [12] 2245 	ld	hl, #_shadow_OAM
+                                   2246 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000BD9 79               [ 4] 2247 	ld	a, c
+      000BDA 22               [ 8] 2248 	ld	(hl+), a
+      000BDB 70               [ 8] 2249 	ld	(hl), b
+                                   2250 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:415: move_sprite(1,spriteX-4,spriteY-4);
+      000BDC FAr02r00         [16] 2251 	ld	a, (#_spriteY)
+      000BDF C6 FC            [ 8] 2252 	add	a, #0xfc
+      000BE1 4F               [ 4] 2253 	ld	c, a
+      000BE2 FAr01r00         [16] 2254 	ld	a, (#_spriteX)
+      000BE5 C6 FC            [ 8] 2255 	add	a, #0xfc
+      000BE7 47               [ 4] 2256 	ld	b, a
+                                   2257 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000BE8 21r04r00         [12] 2258 	ld	hl, #(_shadow_OAM + 4)
+                                   2259 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000BEB 79               [ 4] 2260 	ld	a, c
+      000BEC 22               [ 8] 2261 	ld	(hl+), a
+      000BED 70               [ 8] 2262 	ld	(hl), b
+                                   2263 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:415: move_sprite(1,spriteX-4,spriteY-4);
+      000BEE 18 79            [12] 2264 	jr	00313$
+      000BF0                       2265 00300$:
+                                   2266 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:417: else if(actionCnt == 17){
+      000BF0 F8 04            [12] 2267 	ldhl	sp,	#4
+      000BF2 7E               [ 8] 2268 	ld	a, (hl)
+      000BF3 B7               [ 4] 2269 	or	a, a
+      000BF4 28 12            [12] 2270 	jr	Z, 00297$
+                                   2271 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000BF6 21r00r00         [12] 2272 	ld	hl, #_shadow_OAM
+                                   2273 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000BF9 3E FF            [ 8] 2274 	ld	a, #0xff
+      000BFB 22               [ 8] 2275 	ld	(hl+), a
+      000BFC 36 FF            [12] 2276 	ld	(hl), #0xff
+                                   2277 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000BFE 21r04r00         [12] 2278 	ld	hl, #(_shadow_OAM + 4)
+                                   2279 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000C01 3E FF            [ 8] 2280 	ld	a, #0xff
+      000C03 22               [ 8] 2281 	ld	(hl+), a
+      000C04 36 FF            [12] 2282 	ld	(hl), #0xff
+                                   2283 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:419: move_sprite(1,255,255);
+      000C06 18 61            [12] 2284 	jr	00313$
+      000C08                       2285 00297$:
+                                   2286 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:421: else if(actionCnt == 18){
+      000C08 F8 05            [12] 2287 	ldhl	sp,	#5
+      000C0A 7E               [ 8] 2288 	ld	a, (hl)
+      000C0B B7               [ 4] 2289 	or	a, a
+      000C0C 28 33            [12] 2290 	jr	Z, 00294$
+                                   2291 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:422: set_sprite_data(0,4,SwordLeftTile);
+      000C0E 11r00r00         [12] 2292 	ld	de, #_SwordLeftTile
+      000C11 D5               [16] 2293 	push	de
+      000C12 21 00 04         [12] 2294 	ld	hl, #0x400
+      000C15 E5               [16] 2295 	push	hl
+      000C16 CDr00r00         [24] 2296 	call	_set_sprite_data
+      000C19 E8 04            [16] 2297 	add	sp, #4
+                                   2298 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:423: move_sprite(0,spriteX-12,spriteY+3);
+      000C1B FAr02r00         [16] 2299 	ld	a, (#_spriteY)
+      000C1E C6 03            [ 8] 2300 	add	a, #0x03
+      000C20 4F               [ 4] 2301 	ld	c, a
+      000C21 FAr01r00         [16] 2302 	ld	a, (#_spriteX)
+      000C24 C6 F4            [ 8] 2303 	add	a, #0xf4
+      000C26 47               [ 4] 2304 	ld	b, a
+                                   2305 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000C27 21r00r00         [12] 2306 	ld	hl, #_shadow_OAM
+                                   2307 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000C2A 79               [ 4] 2308 	ld	a, c
+      000C2B 22               [ 8] 2309 	ld	(hl+), a
+      000C2C 70               [ 8] 2310 	ld	(hl), b
+                                   2311 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:424: move_sprite(1,spriteX-4,spriteY+3);
+      000C2D FAr02r00         [16] 2312 	ld	a, (#_spriteY)
+      000C30 C6 03            [ 8] 2313 	add	a, #0x03
+      000C32 4F               [ 4] 2314 	ld	c, a
+      000C33 FAr01r00         [16] 2315 	ld	a, (#_spriteX)
+      000C36 C6 FC            [ 8] 2316 	add	a, #0xfc
+      000C38 47               [ 4] 2317 	ld	b, a
+                                   2318 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000C39 21r04r00         [12] 2319 	ld	hl, #(_shadow_OAM + 4)
+                                   2320 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000C3C 79               [ 4] 2321 	ld	a, c
+      000C3D 22               [ 8] 2322 	ld	(hl+), a
+      000C3E 70               [ 8] 2323 	ld	(hl), b
+                                   2324 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:424: move_sprite(1,spriteX-4,spriteY+3);
+      000C3F 18 28            [12] 2325 	jr	00313$
+      000C41                       2326 00294$:
+                                   2327 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:426: else if(actionCnt == 24){
+      000C41 F8 06            [12] 2328 	ldhl	sp,	#6
+      000C43 7E               [ 8] 2329 	ld	a, (hl)
+      000C44 B7               [ 4] 2330 	or	a, a
+      000C45 28 22            [12] 2331 	jr	Z, 00313$
+                                   2332 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:427: set_sprite_data(4,4,HeroLeftTile);
+      000C47 11r00r00         [12] 2333 	ld	de, #_HeroLeftTile
+      000C4A D5               [16] 2334 	push	de
+      000C4B 21 04 04         [12] 2335 	ld	hl, #0x404
+      000C4E E5               [16] 2336 	push	hl
+      000C4F CDr00r00         [24] 2337 	call	_set_sprite_data
+      000C52 E8 04            [16] 2338 	add	sp, #4
+                                   2339 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000C54 21r00r00         [12] 2340 	ld	hl, #_shadow_OAM
+                                   2341 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000C57 3E FF            [ 8] 2342 	ld	a, #0xff
+      000C59 22               [ 8] 2343 	ld	(hl+), a
+      000C5A 36 FF            [12] 2344 	ld	(hl), #0xff
+                                   2345 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1675: OAM_item_t * itm = &shadow_OAM[nb];
+      000C5C 21r04r00         [12] 2346 	ld	hl, #(_shadow_OAM + 4)
+                                   2347 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1676: itm->y=y, itm->x=x;
+      000C5F 3E FF            [ 8] 2348 	ld	a, #0xff
+      000C61 22               [ 8] 2349 	ld	(hl+), a
+      000C62 36 FF            [12] 2350 	ld	(hl), #0xff
+                                   2351 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:430: swordAction = NOACTION;
+      000C64 21r0Cr00         [12] 2352 	ld	hl, #_swordAction
+      000C67 36 00            [12] 2353 	ld	(hl), #0x00
+      000C69                       2354 00313$:
+                                   2355 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:432: if(actionCnt >= 12){
+      000C69 FAr07r00         [16] 2356 	ld	a, (#_actionCnt)
+      000C6C D6 0C            [ 8] 2357 	sub	a, #0x0c
+      000C6E 38 1C            [12] 2358 	jr	C, 00326$
+                                   2359 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:433: HitCheck(spriteX-16,spriteY-8,spriteX,spriteY+24);
+      000C70 21r02r00         [12] 2360 	ld	hl, #_spriteY
+      000C73 4E               [ 8] 2361 	ld	c, (hl)
+      000C74 79               [ 4] 2362 	ld	a, c
+      000C75 C6 18            [ 8] 2363 	add	a, #0x18
+      000C77 47               [ 4] 2364 	ld	b, a
+      000C78 79               [ 4] 2365 	ld	a, c
+      000C79 C6 F8            [ 8] 2366 	add	a, #0xf8
+      000C7B 5F               [ 4] 2367 	ld	e, a
+      000C7C 21r01r00         [12] 2368 	ld	hl, #_spriteX
+      000C7F 7E               [ 8] 2369 	ld	a, (hl)
+      000C80 C6 F0            [ 8] 2370 	add	a, #0xf0
+      000C82 4F               [ 4] 2371 	ld	c, a
+      000C83 C5               [16] 2372 	push	bc
+      000C84 33               [ 8] 2373 	inc	sp
+      000C85 7E               [ 8] 2374 	ld	a, (hl)
+      000C86 F5               [16] 2375 	push	af
+      000C87 33               [ 8] 2376 	inc	sp
+      000C88 79               [ 4] 2377 	ld	a, c
+      000C89 CDr00r00         [24] 2378 	call	_HitCheck
+      000C8C                       2379 00326$:
+                                   2380 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:436: actionCnt++;
+      000C8C 21r07r00         [12] 2381 	ld	hl, #_actionCnt
+      000C8F 34               [12] 2382 	inc	(hl)
+      000C90                       2383 00328$:
+                                   2384 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:439: joypadPrevious=joypad();
+      000C90 CDr00r00         [24] 2385 	call	_joypad
+      000C93 EAr00r00         [16] 2386 	ld	(#_joypadPrevious),a
+                                   2387 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:440: }
+      000C96 E8 07            [16] 2388 	add	sp, #7
+      000C98 C9               [16] 2389 	ret
+                                   2390 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:442: void StartBlink(){
+                                   2391 ;	---------------------------------
+                                   2392 ; Function StartBlink
+                                   2393 ; ---------------------------------
+      000C99                       2394 _StartBlink::
+                                   2395 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:443: if(blinkFlag == FALSE){
+      000C99 21r0Dr00         [12] 2396 	ld	hl, #_blinkFlag
+      000C9C 7E               [ 8] 2397 	ld	a, (hl)
+      000C9D B7               [ 4] 2398 	or	a, a
+      000C9E C0               [20] 2399 	ret	NZ
+                                   2400 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:444: blinkFlag = TRUE;
+      000C9F 36 01            [12] 2401 	ld	(hl), #0x01
+                                   2402 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:445: blinkCnt = 0;
+      000CA1 21r08r00         [12] 2403 	ld	hl, #_blinkCnt
+      000CA4 36 00            [12] 2404 	ld	(hl), #0x00
+                                   2405 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:446: set_sprite_data(24,4,HeroBlinkTile);
+      000CA6 11r00r00         [12] 2406 	ld	de, #_HeroBlinkTile
+      000CA9 D5               [16] 2407 	push	de
+      000CAA 21 18 04         [12] 2408 	ld	hl, #0x418
+      000CAD E5               [16] 2409 	push	hl
+      000CAE CDr00r00         [24] 2410 	call	_set_sprite_data
+      000CB1 E8 04            [16] 2411 	add	sp, #4
+                                   2412 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1648: shadow_OAM[nb].prop=prop;
+      000CB3 21r63r00         [12] 2413 	ld	hl, #(_shadow_OAM + 99)
+      000CB6 36 00            [12] 2414 	ld	(hl), #0x00
+                                   2415 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:447: set_sprite_prop(24,0x00);
+                                   2416 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:449: }
+      000CB8 C9               [16] 2417 	ret
+                                   2418 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:451: void BlinkExec(){
+                                   2419 ;	---------------------------------
+                                   2420 ; Function BlinkExec
+                                   2421 ; ---------------------------------
+      000CB9                       2422 _BlinkExec::
+                                   2423 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:452: if(blinkFlag == TRUE){
+      000CB9 FAr0Dr00         [16] 2424 	ld	a, (#_blinkFlag)
+      000CBC 3D               [ 4] 2425 	dec	a
+      000CBD C0               [20] 2426 	ret	NZ
+                                   2427 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:453: if(blinkCnt == 0 || blinkCnt == 20 || blinkCnt == 40 || blinkCnt == 60 || blinkCnt == 80 || blinkCnt == 100 || blinkCnt == 120){
+      000CBE 21r08r00         [12] 2428 	ld	hl, #_blinkCnt
+      000CC1 7E               [ 8] 2429 	ld	a, (hl)
+      000CC2 B7               [ 4] 2430 	or	a, a
+      000CC3 28 28            [12] 2431 	jr	Z, 00101$
+      000CC5 7E               [ 8] 2432 	ld	a, (hl)
+      000CC6 D6 14            [ 8] 2433 	sub	a, #0x14
+      000CC8 28 23            [12] 2434 	jr	Z, 00101$
+      000CCA FAr08r00         [16] 2435 	ld	a, (#_blinkCnt)
+      000CCD D6 28            [ 8] 2436 	sub	a, #0x28
+      000CCF 28 1C            [12] 2437 	jr	Z, 00101$
+      000CD1 FAr08r00         [16] 2438 	ld	a, (#_blinkCnt)
+      000CD4 D6 3C            [ 8] 2439 	sub	a, #0x3c
+      000CD6 28 15            [12] 2440 	jr	Z, 00101$
+      000CD8 FAr08r00         [16] 2441 	ld	a, (#_blinkCnt)
+      000CDB D6 50            [ 8] 2442 	sub	a, #0x50
+      000CDD 28 0E            [12] 2443 	jr	Z, 00101$
+      000CDF FAr08r00         [16] 2444 	ld	a, (#_blinkCnt)
+      000CE2 D6 64            [ 8] 2445 	sub	a, #0x64
+      000CE4 28 07            [12] 2446 	jr	Z, 00101$
+      000CE6 FAr08r00         [16] 2447 	ld	a, (#_blinkCnt)
+      000CE9 D6 78            [ 8] 2448 	sub	a, #0x78
+      000CEB 20 0A            [12] 2449 	jr	NZ, 00102$
+      000CED                       2450 00101$:
+                                   2451 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1602: shadow_OAM[nb].tile=tile;
+      000CED 21r0Ar00         [12] 2452 	ld	hl, #(_shadow_OAM + 10)
+      000CF0 36 18            [12] 2453 	ld	(hl), #0x18
+      000CF2 21r0Er00         [12] 2454 	ld	hl, #(_shadow_OAM + 14)
+      000CF5 36 1A            [12] 2455 	ld	(hl), #0x1a
+                                   2456 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:455: set_sprite_tile(3,26);
+      000CF7                       2457 00102$:
+                                   2458 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:457: if(blinkCnt == 10 || blinkCnt == 30 || blinkCnt == 50|| blinkCnt == 70 || blinkCnt == 90 || blinkCnt == 110 || blinkCnt == 130){
+      000CF7 FAr08r00         [16] 2459 	ld	a, (#_blinkCnt)
+      000CFA D6 0A            [ 8] 2460 	sub	a, #0x0a
+      000CFC 28 2A            [12] 2461 	jr	Z, 00111$
+      000CFE FAr08r00         [16] 2462 	ld	a, (#_blinkCnt)
+      000D01 D6 1E            [ 8] 2463 	sub	a, #0x1e
+      000D03 28 23            [12] 2464 	jr	Z, 00111$
+      000D05 FAr08r00         [16] 2465 	ld	a, (#_blinkCnt)
+      000D08 D6 32            [ 8] 2466 	sub	a, #0x32
+      000D0A 28 1C            [12] 2467 	jr	Z, 00111$
+      000D0C FAr08r00         [16] 2468 	ld	a, (#_blinkCnt)
+      000D0F D6 46            [ 8] 2469 	sub	a, #0x46
+      000D11 28 15            [12] 2470 	jr	Z, 00111$
+      000D13 FAr08r00         [16] 2471 	ld	a, (#_blinkCnt)
+      000D16 D6 5A            [ 8] 2472 	sub	a, #0x5a
+      000D18 28 0E            [12] 2473 	jr	Z, 00111$
+      000D1A FAr08r00         [16] 2474 	ld	a, (#_blinkCnt)
+      000D1D D6 6E            [ 8] 2475 	sub	a, #0x6e
+      000D1F 28 07            [12] 2476 	jr	Z, 00111$
+      000D21 FAr08r00         [16] 2477 	ld	a, (#_blinkCnt)
+      000D24 D6 82            [ 8] 2478 	sub	a, #0x82
+      000D26 20 1C            [12] 2479 	jr	NZ, 00112$
+      000D28                       2480 00111$:
+                                   2481 ;C:/Users/sva13/OneDrive/ドキュメント/会社/課題/gbdk/Resources/gbdk/include/gb/gb.h:1602: shadow_OAM[nb].tile=tile;
+      000D28 21r0Ar00         [12] 2482 	ld	hl, #(_shadow_OAM + 10)
+      000D2B 36 04            [12] 2483 	ld	(hl), #0x04
+      000D2D 21r0Er00         [12] 2484 	ld	hl, #(_shadow_OAM + 14)
+      000D30 36 06            [12] 2485 	ld	(hl), #0x06
+                                   2486 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:460: if(blinkCnt == 130){
+      000D32 FAr08r00         [16] 2487 	ld	a, (#_blinkCnt)
+      000D35 D6 82            [ 8] 2488 	sub	a, #0x82
+      000D37 20 0B            [12] 2489 	jr	NZ, 00112$
+                                   2490 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:461: blinkFlag = FALSE;
+      000D39 21r0Dr00         [12] 2491 	ld	hl, #_blinkFlag
+      000D3C 36 00            [12] 2492 	ld	(hl), #0x00
+                                   2493 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:462: blinkCnt = 0;
+      000D3E 21r08r00         [12] 2494 	ld	hl, #_blinkCnt
+      000D41 36 00            [12] 2495 	ld	(hl), #0x00
+                                   2496 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:463: return;
+      000D43 C9               [16] 2497 	ret
+      000D44                       2498 00112$:
+                                   2499 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:466: blinkCnt = blinkCnt + 1;
+      000D44 21r08r00         [12] 2500 	ld	hl, #_blinkCnt
+      000D47 34               [12] 2501 	inc	(hl)
+      000D48 7E               [ 8] 2502 	ld	a, (hl)
+                                   2503 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\HeroExec.c:468: }
+      000D49 C9               [16] 2504 	ret
+                                   2505 	.area _CODE
+                                   2506 	.area _INITIALIZER
+                                   2507 	.area _CABS (ABS)

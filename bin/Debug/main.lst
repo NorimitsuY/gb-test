@@ -1,0 +1,179 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _DamageCheck
+                                     13 	.globl _EyeExecInit
+                                     14 	.globl _EyeExec
+                                     15 	.globl _getBkgY
+                                     16 	.globl _getBkgX
+                                     17 	.globl _getSpriteX
+                                     18 	.globl _getSpriteY
+                                     19 	.globl _HeroExec
+                                     20 	.globl _HeroExecInit
+                                     21 	.globl _wait_vbl_done
+                                     22 ;--------------------------------------------------------
+                                     23 ; special function registers
+                                     24 ;--------------------------------------------------------
+                                     25 ;--------------------------------------------------------
+                                     26 ; ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DATA
+                                     29 ;--------------------------------------------------------
+                                     30 ; ram data
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _INITIALIZED
+                                     33 ;--------------------------------------------------------
+                                     34 ; absolute external ram data
+                                     35 ;--------------------------------------------------------
+                                     36 	.area _DABS (ABS)
+                                     37 ;--------------------------------------------------------
+                                     38 ; global & static initialisations
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _HOME
+                                     41 	.area _GSINIT
+                                     42 	.area _GSFINAL
+                                     43 	.area _GSINIT
+                                     44 ;--------------------------------------------------------
+                                     45 ; Home
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _HOME
+                                     48 	.area _HOME
+                                     49 ;--------------------------------------------------------
+                                     50 ; code
+                                     51 ;--------------------------------------------------------
+                                     52 	.area _CODE
+                           000000    53 	G$main$0$0	= .
+                                     54 	.globl	G$main$0$0
+                           000000    55 	C$main.c$10$0_0$131	= .
+                                     56 	.globl	C$main.c$10$0_0$131
+                                     57 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:10: void main(void){
+                                     58 ;	---------------------------------
+                                     59 ; Function main
+                                     60 ; ---------------------------------
+      000000                         61 _main::
+      000000 3B               [ 8]   62 	dec	sp
+      000001 3B               [ 8]   63 	dec	sp
+                           000002    64 	C$main.c$11$1_0$131	= .
+                                     65 	.globl	C$main.c$11$1_0$131
+                                     66 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:11: DISPLAY_ON;
+      000002 F0r00            [12]   67 	ldh	a, (_LCDC_REG + 0)
+      000004 F6 80            [ 8]   68 	or	a, #0x80
+      000006 E0r00            [12]   69 	ldh	(_LCDC_REG + 0), a
+                           000008    70 	C$main.c$12$1_0$131	= .
+                                     71 	.globl	C$main.c$12$1_0$131
+                                     72 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:12: SPRITES_8x16;
+      000008 F0r00            [12]   73 	ldh	a, (_LCDC_REG + 0)
+      00000A F6 04            [ 8]   74 	or	a, #0x04
+      00000C E0r00            [12]   75 	ldh	(_LCDC_REG + 0), a
+                           00000E    76 	C$main.c$16$1_0$131	= .
+                                     77 	.globl	C$main.c$16$1_0$131
+                                     78 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:16: HeroExecInit();
+      00000E CDr00r00         [24]   79 	call	_HeroExecInit
+                           000011    80 	C$main.c$17$1_0$131	= .
+                                     81 	.globl	C$main.c$17$1_0$131
+                                     82 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:17: EyeExecInit();
+      000011 CDr00r00         [24]   83 	call	_EyeExecInit
+                           000014    84 	C$main.c$18$1_0$131	= .
+                                     85 	.globl	C$main.c$18$1_0$131
+                                     86 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:18: doukutsuInit();
+      000014 CDr00r00         [24]   87 	call	_doukutsuInit
+                           000017    88 	C$main.c$20$1_0$131	= .
+                                     89 	.globl	C$main.c$20$1_0$131
+                                     90 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:20: SHOW_SPRITES;
+      000017 F0r00            [12]   91 	ldh	a, (_LCDC_REG + 0)
+      000019 F6 02            [ 8]   92 	or	a, #0x02
+      00001B E0r00            [12]   93 	ldh	(_LCDC_REG + 0), a
+                           00001D    94 	C$main.c$21$1_0$131	= .
+                                     95 	.globl	C$main.c$21$1_0$131
+                                     96 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:21: SHOW_BKG;
+      00001D F0r00            [12]   97 	ldh	a, (_LCDC_REG + 0)
+      00001F F6 01            [ 8]   98 	or	a, #0x01
+      000021 E0r00            [12]   99 	ldh	(_LCDC_REG + 0), a
+                           000023   100 	C$main.c$22$1_0$131	= .
+                                    101 	.globl	C$main.c$22$1_0$131
+                                    102 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:22: while(1){
+      000023                        103 00104$:
+                           000023   104 	C$main.c$24$2_0$132	= .
+                                    105 	.globl	C$main.c$24$2_0$132
+                                    106 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:24: HeroExec();
+      000023 CDr00r00         [24]  107 	call	_HeroExec
+                           000026   108 	C$main.c$25$2_0$132	= .
+                                    109 	.globl	C$main.c$25$2_0$132
+                                    110 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:25: EyeExec(getSpriteX(), getSpriteY(), getBkgX(), getBkgY());
+      000026 CDr00r00         [24]  111 	call	_getBkgY
+                                    112 ;	spillPairReg hl
+                                    113 ;	spillPairReg hl
+                                    114 ;	spillPairReg hl
+                                    115 ;	spillPairReg hl
+      000029 C5               [16]  116 	push	bc
+      00002A CDr00r00         [24]  117 	call	_getBkgX
+      00002D F8 02            [12]  118 	ldhl	sp,	#2
+      00002F 79               [ 4]  119 	ld	a, c
+      000030 22               [ 8]  120 	ld	(hl+), a
+      000031 70               [ 8]  121 	ld	(hl), b
+      000032 CDr00r00         [24]  122 	call	_getSpriteY
+      000035 C5               [16]  123 	push	bc
+      000036 CDr00r00         [24]  124 	call	_getSpriteX
+      000039 59               [ 4]  125 	ld	e, c
+      00003A 50               [ 4]  126 	ld	d, b
+      00003B C1               [12]  127 	pop	bc
+      00003C F8 02            [12]  128 	ldhl	sp,	#2
+      00003E 2A               [ 8]  129 	ld	a, (hl+)
+      00003F 66               [ 8]  130 	ld	h, (hl)
+                                    131 ;	spillPairReg hl
+                                    132 ;	spillPairReg hl
+      000040 6F               [ 4]  133 	ld	l, a
+                                    134 ;	spillPairReg hl
+                                    135 ;	spillPairReg hl
+      000041 E5               [16]  136 	push	hl
+      000042 CDr00r00         [24]  137 	call	_EyeExec
+                           000045   138 	C$main.c$26$2_1$133	= .
+                                    139 	.globl	C$main.c$26$2_1$133
+                                    140 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:26: BOOLEAN damageFlag = DamageCheck(getSpriteX(), getSpriteY());
+      000045 CDr00r00         [24]  141 	call	_getSpriteY
+      000048 C5               [16]  142 	push	bc
+      000049 CDr00r00         [24]  143 	call	_getSpriteX
+      00004C 59               [ 4]  144 	ld	e, c
+      00004D 50               [ 4]  145 	ld	d, b
+      00004E C1               [12]  146 	pop	bc
+      00004F CDr00r00         [24]  147 	call	_DamageCheck
+                           000052   148 	C$main.c$27$2_1$133	= .
+                                    149 	.globl	C$main.c$27$2_1$133
+                                    150 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:27: if(damageFlag == TRUE){
+      000052 3D               [ 4]  151 	dec	a
+      000053 20 03            [12]  152 	jr	NZ, 00102$
+                           000055   153 	C$main.c$28$3_1$134	= .
+                                    154 	.globl	C$main.c$28$3_1$134
+                                    155 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:28: StartBlink();
+      000055 CDr00r00         [24]  156 	call	_StartBlink
+      000058                        157 00102$:
+                           000058   158 	C$main.c$30$2_1$133	= .
+                                    159 	.globl	C$main.c$30$2_1$133
+                                    160 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:30: BlinkExec();
+      000058 CDr00r00         [24]  161 	call	_BlinkExec
+                           00005B   162 	C$main.c$31$2_1$133	= .
+                                    163 	.globl	C$main.c$31$2_1$133
+                                    164 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:31: wait_vbl_done();
+      00005B CDr00r00         [24]  165 	call	_wait_vbl_done
+      00005E 18 C3            [12]  166 	jr	00104$
+                           000060   167 	C$main.c$33$1_0$131	= .
+                                    168 	.globl	C$main.c$33$1_0$131
+                                    169 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\main.c:33: }
+      000060 33               [ 8]  170 	inc	sp
+      000061 33               [ 8]  171 	inc	sp
+                           000062   172 	C$main.c$33$1_0$131	= .
+                                    173 	.globl	C$main.c$33$1_0$131
+                           000062   174 	XG$main$0$0	= .
+                                    175 	.globl	XG$main$0$0
+      000062 C9               [16]  176 	ret
+                                    177 	.area _CODE
+                                    178 	.area _INITIALIZER
+                                    179 	.area _CABS (ABS)

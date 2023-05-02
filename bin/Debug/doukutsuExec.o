@@ -1,0 +1,109 @@
+;!FILE bin/Debug/doukutsuExec.asm
+XL3
+H 9 areas 41 global symbols
+M doukutsuExec
+O -msm83
+S _set_bkg_palette Ref000000
+S _douketsuColor Ref000000
+S .__.ABS. Def000000
+S _doukutsu Ref000000
+S _doukutsuTile Ref000000
+S _LCDC_REG Ref000000
+S _set_bkg_data Ref000000
+S _set_bkg_tiles Ref000000
+S _VBK_REG Ref000000
+A _CODE size 8E flags 0 addr 0
+S A$doukutsuExec$95 Def00002F
+S A$doukutsuExec$77 Def00001A
+S A$doukutsuExec$68 Def00000D
+S A$doukutsuExec$59 Def000000
+S A$doukutsuExec$96 Def000032
+S A$doukutsuExec$78 Def00001B
+S A$doukutsuExec$69 Def00000E
+S A$doukutsuExec$88 Def000024
+S A$doukutsuExec$79 Def00001E
+S A$doukutsuExec$89 Def000027
+S XG$doukutsuInit$0$0 Def00004D
+S _doukutsuPallet Def00004E
+S G$doukutsuPallet$0_0$0 Def00004E
+S A$doukutsuExec$100 Def000034
+S A$doukutsuExec$110 Def000040
+S A$doukutsuExec$101 Def000035
+S A$doukutsuExec$111 Def000041
+S A$doukutsuExec$112 Def000042
+S A$doukutsuExec$113 Def000045
+S C$doukutsuExec.c$20$1_0$107 Def000006
+S A$doukutsuExec$105 Def000037
+S C$doukutsuExec.c$21$1_0$107 Def000013
+S A$doukutsuExec$106 Def00003A
+S C$doukutsuExec.c$22$1_0$107 Def000020
+S A$doukutsuExec$107 Def00003B
+S A$doukutsuExec$117 Def000047
+S A$doukutsuExec$108 Def00003E
+S C$doukutsuExec.c$24$1_0$107 Def000024
+S G$doukutsuInit$0$0 Def000000
+S A$doukutsuExec$127 Def00004D
+S A$doukutsuExec$118 Def000049
+S A$doukutsuExec$109 Def00003F
+S C$doukutsuExec.c$25$1_0$107 Def000034
+S A$doukutsuExec$119 Def00004B
+S C$doukutsuExec.c$26$1_0$107 Def000037
+S C$doukutsuExec.c$18$0_0$107 Def000000
+S C$doukutsuExec.c$28$1_0$107 Def000047
+S C$doukutsuExec.c$19$1_0$107 Def000000
+S C$doukutsuExec.c$29$1_0$107 Def00004D
+S _doukutsuInit Def000000
+S A$doukutsuExec$60 Def000002
+S A$doukutsuExec$70 Def000011
+S A$doukutsuExec$61 Def000004
+S A$doukutsuExec$90 Def000028
+S A$doukutsuExec$91 Def00002B
+S A$doukutsuExec$92 Def00002C
+S A$doukutsuExec$83 Def000020
+S A$doukutsuExec$74 Def000013
+S A$doukutsuExec$65 Def000006
+S A$doukutsuExec$93 Def00002D
+S A$doukutsuExec$84 Def000022
+S A$doukutsuExec$75 Def000016
+S A$doukutsuExec$66 Def000009
+S A$doukutsuExec$94 Def00002E
+S A$doukutsuExec$76 Def000017
+S A$doukutsuExec$67 Def00000A
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 F0 00 00 00 E6 FE E0 00 00 00 11 00 00
+R 00 00 00 00 0B 04 05 00 0B 0A 05 00 02 0E 04 00
+T 09 00 00 D5 21 00 34 E5 CD 00 00 E8 04 11 4E 00
+R 00 00 00 00 02 09 06 00 00 0E 00 00
+T 16 00 00 D5 21 00 08 E5 CD 00 00 E8 04 3E 01 E0
+R 00 00 00 00 02 09 00 00
+T 23 00 00 00 00 00 11 00 00 D5 21 20 20 E5 AF 0F
+R 00 00 00 00 0B 03 08 00 02 07 01 00
+T 2E 00 00 F5 CD 00 00 E8 06 AF E0 00 00 00 11
+R 00 00 00 00 02 05 07 00 0B 0B 08 00
+T 38 00 00 00 00 D5 21 20 20 E5 AF 0F F5 CD 00 00
+R 00 00 00 00 02 03 03 00 02 0E 07 00
+T 45 00 00 E8 06 F0 00 00 00 F6 01 E0 00 00 00 C9
+R 00 00 00 00 0B 06 05 00 0B 0C 05 00
+T 4E 00 00
+R 00 00 00 00
+T 4E 00 00 FF 7F 51 62 AE 51 E8 34 91 52 4E 4A
+R 00 00 00 00
+T 5A 00 00 EA 3D 89 35 33 46 8E 31 2B 25 E8 0C
+R 00 00 00 00
+T 66 00 00 FF 7F E7 22 C4 19 00 00 FF 7F 51 62
+R 00 00 00 00
+T 72 00 00 AE 51 E8 34 FF 7F 51 62 AE 51 E8 34
+R 00 00 00 00
+T 7E 00 00 FF 7F 51 62 AE 51 E8 34 FF 7F 51 62
+R 00 00 00 00
+T 8A 00 00 AE 51 E8 34
+R 00 00 00 00

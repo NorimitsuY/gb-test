@@ -1,0 +1,15 @@
+M:Eye
+S:G$EyeTileCGB$0_0$0({7}DA7d,SC:U),D,0,0
+S:G$EyeShadowTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeDownFloatTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeDownTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeUpFloatTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeUpTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeLeftFloatTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeLeftTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeRightFloatTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeRightTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeBeamShot1Tile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeBeamShot2Tile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeBeamTateTile$0_0$0({64}DA64d,SC:U),D,0,0
+S:G$EyeBeamYokoTile$0_0$0({64}DA64d,SC:U),D,0,0

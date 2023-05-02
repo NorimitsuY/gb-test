@@ -1,0 +1,137 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.2.2 #13350 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module doukutsuExec
+                                      6 	.optsdcc -msm83
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _doukutsuInit
+                                     12 	.globl _set_bkg_palette
+                                     13 	.globl _set_bkg_tiles
+                                     14 	.globl _set_bkg_data
+                                     15 	.globl _doukutsuPallet
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _DATA
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _INITIALIZED
+                                     27 ;--------------------------------------------------------
+                                     28 ; absolute external ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _DABS (ABS)
+                                     31 ;--------------------------------------------------------
+                                     32 ; global & static initialisations
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _HOME
+                                     35 	.area _GSINIT
+                                     36 	.area _GSFINAL
+                                     37 	.area _GSINIT
+                                     38 ;--------------------------------------------------------
+                                     39 ; Home
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _HOME
+                                     42 	.area _HOME
+                                     43 ;--------------------------------------------------------
+                                     44 ; code
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _CODE
+                                     47 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:18: void doukutsuInit(){
+                                     48 ;	---------------------------------
+                                     49 ; Function doukutsuInit
+                                     50 ; ---------------------------------
+      000000                         51 _doukutsuInit::
+                                     52 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:19: HIDE_BKG;
+      000000 F0r00            [12]   53 	ldh	a, (_LCDC_REG + 0)
+      000002 E6 FE            [ 8]   54 	and	a, #0xfe
+      000004 E0r00            [12]   55 	ldh	(_LCDC_REG + 0), a
+                                     56 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:20: set_bkg_data(0, 52, doukutsuTile);
+      000006 11r00r00         [12]   57 	ld	de, #_doukutsuTile
+      000009 D5               [16]   58 	push	de
+      00000A 21 00 34         [12]   59 	ld	hl, #0x3400
+      00000D E5               [16]   60 	push	hl
+      00000E CDr00r00         [24]   61 	call	_set_bkg_data
+      000011 E8 04            [16]   62 	add	sp, #4
+                                     63 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:21: set_bkg_palette(0,8,&doukutsuPallet[0]);
+      000013 11r4Er00         [12]   64 	ld	de, #_doukutsuPallet
+      000016 D5               [16]   65 	push	de
+      000017 21 00 08         [12]   66 	ld	hl, #0x800
+      00001A E5               [16]   67 	push	hl
+      00001B CDr00r00         [24]   68 	call	_set_bkg_palette
+      00001E E8 04            [16]   69 	add	sp, #4
+                                     70 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:22: VBK_REG = 1;
+      000020 3E 01            [ 8]   71 	ld	a, #0x01
+      000022 E0r00            [12]   72 	ldh	(_VBK_REG + 0), a
+                                     73 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:24: set_bkg_tiles(0,0,32,32,douketsuColor);
+      000024 11r00r00         [12]   74 	ld	de, #_douketsuColor
+      000027 D5               [16]   75 	push	de
+      000028 21 20 20         [12]   76 	ld	hl, #0x2020
+      00002B E5               [16]   77 	push	hl
+      00002C AF               [ 4]   78 	xor	a, a
+      00002D 0F               [ 4]   79 	rrca
+      00002E F5               [16]   80 	push	af
+      00002F CDr00r00         [24]   81 	call	_set_bkg_tiles
+      000032 E8 06            [16]   82 	add	sp, #6
+                                     83 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:25: VBK_REG = 0;
+      000034 AF               [ 4]   84 	xor	a, a
+      000035 E0r00            [12]   85 	ldh	(_VBK_REG + 0), a
+                                     86 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:26: set_bkg_tiles(0,0,32,32,doukutsu);
+      000037 11r00r00         [12]   87 	ld	de, #_doukutsu
+      00003A D5               [16]   88 	push	de
+      00003B 21 20 20         [12]   89 	ld	hl, #0x2020
+      00003E E5               [16]   90 	push	hl
+      00003F AF               [ 4]   91 	xor	a, a
+      000040 0F               [ 4]   92 	rrca
+      000041 F5               [16]   93 	push	af
+      000042 CDr00r00         [24]   94 	call	_set_bkg_tiles
+      000045 E8 06            [16]   95 	add	sp, #6
+                                     96 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:28: SHOW_BKG;
+      000047 F0r00            [12]   97 	ldh	a, (_LCDC_REG + 0)
+      000049 F6 01            [ 8]   98 	or	a, #0x01
+      00004B E0r00            [12]   99 	ldh	(_LCDC_REG + 0), a
+                                    100 ;C:\Users\sva13\OneDrive\ドキュメント\会社\課題\gbdk\Project\gb-test\source\exec\doukutsuExec.c:29: }
+      00004D C9               [16]  101 	ret
+      00004E                        102 _doukutsuPallet:
+      00004E FF 7F                  103 	.dw #0x7fff
+      000050 51 62                  104 	.dw #0x6251
+      000052 AE 51                  105 	.dw #0x51ae
+      000054 E8 34                  106 	.dw #0x34e8
+      000056 91 52                  107 	.dw #0x5291
+      000058 4E 4A                  108 	.dw #0x4a4e
+      00005A EA 3D                  109 	.dw #0x3dea
+      00005C 89 35                  110 	.dw #0x3589
+      00005E 33 46                  111 	.dw #0x4633
+      000060 8E 31                  112 	.dw #0x318e
+      000062 2B 25                  113 	.dw #0x252b
+      000064 E8 0C                  114 	.dw #0x0ce8
+      000066 FF 7F                  115 	.dw #0x7fff
+      000068 E7 22                  116 	.dw #0x22e7
+      00006A C4 19                  117 	.dw #0x19c4
+      00006C 00 00                  118 	.dw #0x0000
+      00006E FF 7F                  119 	.dw #0x7fff
+      000070 51 62                  120 	.dw #0x6251
+      000072 AE 51                  121 	.dw #0x51ae
+      000074 E8 34                  122 	.dw #0x34e8
+      000076 FF 7F                  123 	.dw #0x7fff
+      000078 51 62                  124 	.dw #0x6251
+      00007A AE 51                  125 	.dw #0x51ae
+      00007C E8 34                  126 	.dw #0x34e8
+      00007E FF 7F                  127 	.dw #0x7fff
+      000080 51 62                  128 	.dw #0x6251
+      000082 AE 51                  129 	.dw #0x51ae
+      000084 E8 34                  130 	.dw #0x34e8
+      000086 FF 7F                  131 	.dw #0x7fff
+      000088 51 62                  132 	.dw #0x6251
+      00008A AE 51                  133 	.dw #0x51ae
+      00008C E8 34                  134 	.dw #0x34e8
+                                    135 	.area _CODE
+                                    136 	.area _INITIALIZER
+                                    137 	.area _CABS (ABS)

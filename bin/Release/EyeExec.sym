@@ -1,0 +1,63 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+  0 _ChangeDirection                                               000BB7 GR
+    _DIV_REG                                                       ****** GX
+  0 _DamageCheck                                                   00122E GR
+    _EyeBeamShot1Tile                                              ****** GX
+    _EyeDownFloatTile                                              ****** GX
+    _EyeDownTile                                                   ****** GX
+  0 _EyeExec                                                       0011A3 GR
+  0 _EyeExecInit                                                   000000 GR
+  0 _EyeExecMain                                                   000D22 GR
+  0 _EyeInit                                                       00013F GR
+    _EyeLeftFloatTile                                              ****** GX
+    _EyeLeftTile                                                   ****** GX
+  0 _EyeModeChange                                                 000BD8 GR
+  0 _EyePosAdjust                                                  001200 GR
+    _EyeRightFloatTile                                             ****** GX
+    _EyeRightTile                                                  ****** GX
+    _EyeShadowTile                                                 ****** GX
+    _EyeUpFloatTile                                                ****** GX
+    _EyeUpTile                                                     ****** GX
+  0 _HitCheck                                                      0012F4 GR
+    _LY_REG                                                        ****** GX
+  1 _adjustCnt                                                     00000A GR
+  1 _eye1Cnt                                                       000008 GR
+  1 _eye1Flag                                                      000006 GR
+  1 _eye1Mode                                                      000004 GR
+  1 _eye1X                                                         000000 GR
+  1 _eye1Y                                                         000001 GR
+  1 _eye2Cnt                                                       000009 GR
+  1 _eye2Flag                                                      000007 GR
+  1 _eye2Mode                                                      000005 GR
+  1 _eye2X                                                         000002 GR
+  1 _eye2Y                                                         000003 GR
+    _initrand                                                      ****** GX
+    _rand                                                          ****** GX
+  0 _randGenetate                                                  000024 GR
+    _set_sprite_data                                               ****** GX
+    _shadow_OAM                                                    ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size   1362   flags    0
+   1 _DATA                                      size      B   flags    0
+   2 _INITIALIZED                               size      0   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      0   flags    0
+   8 _CABS                                      size      0   flags    8
+

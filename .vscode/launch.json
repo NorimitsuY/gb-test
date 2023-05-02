@@ -1,0 +1,19 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "type": "emulicious-debugger",
+            "request": "launch",
+            "emuliciousPath": "${workspaceFolder}/../../Resources/Emulicious",
+            "name": "Launch in Emulicious",
+            "program": "${workspaceFolder}/dist/Debug/GbTest.gb",
+            "port": 58870,
+            "stopOnEntry": false,
+            "preLaunchTask": "${defaultBuildTask}"
+        }
+    ]
+}
